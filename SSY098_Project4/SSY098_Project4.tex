@@ -1,0 +1,1240 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{SSY098\_Project4}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{torch}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{nn} \PY{k}{as} \PY{n+nn}{nn}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{optim} \PY{k}{as} \PY{n+nn}{optim}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Helper: Sinusoidal Positional Embeddings \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} This is the version from your notebook (Cell 2) which includes the device fix.}
+\PY{k}{class} \PY{n+nc}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{size}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,} \PY{n}{scale}\PY{p}{:} \PY{n+nb}{float} \PY{o}{=} \PY{l+m+mf}{1.0}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} size is the output embedding dimension}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{=} \PY{n}{size}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{scale} \PY{o}{=} \PY{n}{scale}
+
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{:} \PY{n}{torch}\PY{o}{.}\PY{n}{Tensor}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} x is the input tensor, e.g., time\PYZus{}steps of shape [Batch]}
+        \PY{n}{device} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{device}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{scale}
+        \PY{n}{half\PYZus{}size} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2}
+        
+        \PY{c+c1}{\PYZsh{} Ensure calculations are on the correct device}
+        \PY{n}{log\PYZus{}val} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{10000.0}\PY{p}{]}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{p}{)}
+        \PY{n}{arange\PYZus{}tensor} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{half\PYZus{}size}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Avoid division by zero if half\PYZus{}size is 1 (i.e., self.size is 2 or 3)}
+        \PY{k}{if} \PY{n}{half\PYZus{}size} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+             \PY{n}{div\PYZus{}val} \PY{o}{=} \PY{n}{log\PYZus{}val} \PY{o}{/} \PY{l+m+mf}{1.0} \PY{c+c1}{\PYZsh{} Or handle as a special case if self.size \PYZlt{} 4}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{div\PYZus{}val} \PY{o}{=} \PY{n}{log\PYZus{}val} \PY{o}{/} \PY{p}{(}\PY{n}{half\PYZus{}size} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{n}{emb\PYZus{}base} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{div\PYZus{}val} \PY{o}{*} \PY{n}{arange\PYZus{}tensor}\PY{p}{)}
+
+        \PY{n}{emb} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{*} \PY{n}{emb\PYZus{}base}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{emb} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{emb}\PY{p}{)}\PY{p}{,} \PY{n}{torch}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{emb}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        
+        \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{1} \PY{o+ow}{and} \PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{==} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{p}{:}
+             \PY{n}{padding} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+             \PY{n}{emb} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{(}\PY{n}{emb}\PY{p}{,} \PY{n}{padding}\PY{p}{)}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{elif} \PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{p}{:} \PY{c+c1}{\PYZsh{} Should generally not happen with this logic}
+             \PY{n}{emb} \PY{o}{=} \PY{n}{emb}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{:}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}\PY{p}{]}
+        \PY{k}{return} \PY{n}{emb}
+
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}len\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Device Configuration \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{device} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cuda}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{is\PYZus{}available}\PY{p}{(}\PY{p}{)} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cpu}\PY{l+s+s2}{\PYZdq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Using device: }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Data Loading for Advanced Part \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{try}\PY{p}{:}
+    \PY{n}{stars\PYZus{}data\PYZus{}np} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{stars\PYZus{}data.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Expected shape [1024, 1024, 2] [cite: 228]}
+    \PY{n}{stars\PYZus{}data} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{from\PYZus{}numpy}\PY{p}{(}\PY{n}{stars\PYZus{}data\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loaded stars data shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{3} \PY{o+ow}{or} \PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{2}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: stars\PYZus{}data.npy does not have the expected shape [num\PYZus{}stars, num\PYZus{}points\PYZus{}per\PYZus{}star, 2].}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Please ensure your data is formatted as 1024 samples, each with 1024 2D points. [cite: 228]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{FileNotFoundError}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: stars\PYZus{}data.npy not found. Please place it in the correct directory.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error loading or processing stars\PYZus{}data.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Conditional Neural Network (MLP) for Advanced Part \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{class} \PY{n+nc}{ConditionalNoisePredictionMLP}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,}
+                 \PY{n}{global\PYZus{}feature\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} 
+                 \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{256}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+
+        \PY{n}{fc\PYZus{}input\PYZus{}dim} \PY{o}{=} \PY{n}{time\PYZus{}emb\PYZus{}dim} \PY{o}{+} \PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim} \PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{global\PYZus{}feature\PYZus{}dim}
+
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{fc\PYZus{}input\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ConditionalMLP initialized with input dim for main MLP: }\PY{l+s+si}{\PYZob{}}\PY{n}{fc\PYZus{}input\PYZus{}dim}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x\PYZus{}points}\PY{p}{,} \PY{n}{time\PYZus{}steps}\PY{p}{,} \PY{n}{global\PYZus{}batch\PYZus{}feature}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} x\PYZus{}points: [Total\PYZus{}Points\PYZus{}In\PYZus{}Meta\PYZus{}Batch, point\PYZus{}dim (2)]}
+        \PY{c+c1}{\PYZsh{} time\PYZus{}steps: [Total\PYZus{}Points\PYZus{}In\PYZus{}Meta\PYZus{}Batch]}
+        \PY{c+c1}{\PYZsh{} global\PYZus{}batch\PYZus{}feature: [Total\PYZus{}Points\PYZus{}In\PYZus{}Meta\PYZus{}Batch, global\PYZus{}feature\PYZus{}dim (2)]}
+        
+        \PY{n}{t\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder}\PY{p}{(}\PY{n}{time\PYZus{}steps}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{} Pass 1D tensor [Total\PYZus{}Points]}
+
+        \PY{n}{point\PYZus{}x\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} Pass 1D tensor [Total\PYZus{}Points]}
+        \PY{n}{point\PYZus{}y\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{} Pass 1D tensor [Total\PYZus{}Points]}
+        \PY{n}{point\PYZus{}embeddings} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{point\PYZus{}x\PYZus{}emb}\PY{p}{,} \PY{n}{point\PYZus{}y\PYZus{}emb}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{n}{combined\PYZus{}input} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{point\PYZus{}embeddings}\PY{p}{,} \PY{n}{t\PYZus{}emb}\PY{p}{,} \PY{n}{global\PYZus{}batch\PYZus{}feature}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{predicted\PYZus{}noise} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp}\PY{p}{(}\PY{n}{combined\PYZus{}input}\PY{p}{)}
+        \PY{k}{return} \PY{n}{predicted\PYZus{}noise}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Diffusion Parameters \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced} \PY{o}{=} \PY{l+m+mi}{1000}
+\PY{n}{betas\PYZus{}advanced} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.0001}\PY{p}{,} \PY{l+m+mf}{0.02}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{alphas\PYZus{}advanced} \PY{o}{=} \PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{betas\PYZus{}advanced}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{n}{alphas\PYZus{}advanced}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} For DDPM sampling step variance (beta\PYZus{}tilde\PYZus{}t)}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}advanced} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{posterior\PYZus{}variance\PYZus{}advanced} \PY{o}{=} \PY{n}{betas\PYZus{}advanced} \PY{o}{*} \PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}advanced}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Helper function for forward diffusion (noising) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{def} \PY{n+nf}{q\PYZus{}sample\PYZus{}advanced}\PY{p}{(}\PY{n}{x\PYZus{}0\PYZus{}points}\PY{p}{,} \PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{,} \PY{n}{noise\PYZus{}points}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} x\PYZus{}0\PYZus{}points: [Total\PYZus{}Points, point\PYZus{}dim (2)]}
+    \PY{c+c1}{\PYZsh{} t\PYZus{}indices\PYZus{}points: [Total\PYZus{}Points]}
+    \PY{c+c1}{\PYZsh{} noise\PYZus{}points: [Total\PYZus{}Points, point\PYZus{}dim (2)]}
+    \PY{k}{if} \PY{n}{noise\PYZus{}points} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n}{noise\PYZus{}points} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}0\PYZus{}points}\PY{p}{)}
+
+    \PY{n}{batch\PYZus{}sqrt\PYZus{}alphas\PYZus{}cumprod} \PY{o}{=} \PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} Shape [Total\PYZus{}Points, 1]}
+    \PY{n}{batch\PYZus{}sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} Shape [Total\PYZus{}Points, 1]}
+
+    \PY{n}{xt\PYZus{}points} \PY{o}{=} \PY{n}{batch\PYZus{}sqrt\PYZus{}alphas\PYZus{}cumprod} \PY{o}{*} \PY{n}{x\PYZus{}0\PYZus{}points} \PY{o}{+} \PY{n}{batch\PYZus{}sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod} \PY{o}{*} \PY{n}{noise\PYZus{}points}
+    \PY{k}{return} \PY{n}{xt\PYZus{}points}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Model, Optimizer, Loss \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{adv\PYZus{}point\PYZus{}dim} \PY{o}{=} \PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{c+c1}{\PYZsh{} Should be 2}
+\PY{n}{adv\PYZus{}time\PYZus{}emb\PYZus{}dim} \PY{o}{=} \PY{l+m+mi}{64}
+\PY{n}{adv\PYZus{}point\PYZus{}coord\PYZus{}emb\PYZus{}dim} \PY{o}{=} \PY{l+m+mi}{64}
+\PY{n}{adv\PYZus{}global\PYZus{}feature\PYZus{}dim} \PY{o}{=} \PY{n}{adv\PYZus{}point\PYZus{}dim} \PY{c+c1}{\PYZsh{} Mean of the batch (2D)}
+\PY{n}{adv\PYZus{}hidden\PYZus{}dim} \PY{o}{=} \PY{l+m+mi}{256}
+
+\PY{n}{model\PYZus{}advanced} \PY{o}{=} \PY{n}{ConditionalNoisePredictionMLP}\PY{p}{(}
+    \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{,}
+    \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}time\PYZus{}emb\PYZus{}dim}\PY{p}{,}
+    \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{,}
+    \PY{n}{global\PYZus{}feature\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}global\PYZus{}feature\PYZus{}dim}\PY{p}{,}
+    \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}hidden\PYZus{}dim}
+\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+
+\PY{n}{optimizer\PYZus{}advanced} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}advanced}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}4}\PY{p}{)}
+\PY{n}{loss\PYZus{}fn\PYZus{}advanced} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MSELoss}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Corrected Training Loop for Advanced Part \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{num\PYZus{}epochs\PYZus{}advanced} \PY{o}{=} \PY{l+m+mi}{20000}
+\PY{c+c1}{\PYZsh{} Number of STAR SAMPLES to process in one optimizer step (meta\PYZhy{}batch size)}
+\PY{c+c1}{\PYZsh{} Adjust based on your GPU memory.}
+\PY{c+c1}{\PYZsh{} Each star has stars\PYZus{}data.shape[1] points (e.g., 1024)}
+\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars} \PY{o}{=} \PY{l+m+mi}{16} \PY{c+c1}{\PYZsh{} Example: 16 stars per meta\PYZhy{}batch}
+
+\PY{n}{num\PYZus{}total\PYZus{}stars} \PY{o}{=} \PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}       \PY{c+c1}{\PYZsh{} e.g., 1024}
+\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star} \PY{o}{=} \PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}   \PY{c+c1}{\PYZsh{} e.g., 1024}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Starting training for Advanced Part: }\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ epochs, }\PY{l+s+si}{\PYZob{}}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ stars per meta\PYZhy{}batch.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{p}{)}\PY{p}{:}
+    \PY{n}{optimizer\PYZus{}advanced}\PY{o}{.}\PY{n}{zero\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Sample a \PYZdq{}meta\PYZhy{}batch\PYZdq{} of star indices}
+    \PY{n}{star\PYZus{}indices} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}total\PYZus{}stars}\PY{p}{,} \PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} x0\PYZus{}stars\PYZus{}batch shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars, num\PYZus{}points\PYZus{}per\PYZus{}star, adv\PYZus{}point\PYZus{}dim]}
+    \PY{n}{x0\PYZus{}stars\PYZus{}batch} \PY{o}{=} \PY{n}{stars\PYZus{}data}\PY{p}{[}\PY{n}{star\PYZus{}indices}\PY{p}{]}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)} \PY{c+c1}{\PYZsh{} Slicing keeps it on device}
+
+    \PY{c+c1}{\PYZsh{} Reshape to treat all points from all sampled stars as one large batch for point\PYZhy{}wise operations}
+    \PY{c+c1}{\PYZsh{} Shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars * num\PYZus{}points\PYZus{}per\PYZus{}star, adv\PYZus{}point\PYZus{}dim]}
+    \PY{n}{x0\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{x0\PYZus{}stars\PYZus{}batch}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Sample a timestep t for EACH point}
+    \PY{c+c1}{\PYZsh{} Shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars * num\PYZus{}points\PYZus{}per\PYZus{}star]}
+    \PY{n}{t\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced}\PY{p}{,} \PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{o}{.}\PY{n}{long}\PY{p}{(}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Sample true noise epsilon \PYZti{} N(0,I) for EACH point}
+    \PY{n}{true\PYZus{}noise\PYZus{}flat} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Get xt\PYZus{}points\PYZus{}flat by noising x0\PYZus{}points\PYZus{}flat to their respective timesteps t\PYZus{}points\PYZus{}flat}
+    \PY{n}{xt\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{q\PYZus{}sample\PYZus{}advanced}\PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{t\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{noise\PYZus{}points}\PY{o}{=}\PY{n}{true\PYZus{}noise\PYZus{}flat}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate the global feature (permutation\PYZhy{}invariant) PER STAR [cite: 231]}
+    \PY{c+c1}{\PYZsh{} Reshape xt\PYZus{}points\PYZus{}flat back to a \PYZdq{}per star\PYZdq{} view}
+    \PY{c+c1}{\PYZsh{} Shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars, num\PYZus{}points\PYZus{}per\PYZus{}star, adv\PYZus{}point\PYZus{}dim]}
+    \PY{n}{xt\PYZus{}stars\PYZus{}view} \PY{o}{=} \PY{n}{xt\PYZus{}points\PYZus{}flat}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate mean over the points (dim=1) for each star in the meta\PYZhy{}batch}
+    \PY{c+c1}{\PYZsh{} global\PYZus{}feat\PYZus{}per\PYZus{}star shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars, 1, adv\PYZus{}global\PYZus{}feature\PYZus{}dim]}
+    \PY{n}{global\PYZus{}feat\PYZus{}per\PYZus{}star} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{xt\PYZus{}stars\PYZus{}view}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdim}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} \PY{c+c1}{\PYZsh{} Average position of points per star [cite: 231]}
+
+    \PY{c+c1}{\PYZsh{} Tile this global feature to match each point within its star}
+    \PY{c+c1}{\PYZsh{} global\PYZus{}feat\PYZus{}tiled shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars, num\PYZus{}points\PYZus{}per\PYZus{}star, adv\PYZus{}global\PYZus{}feature\PYZus{}dim]}
+    \PY{n}{global\PYZus{}feat\PYZus{}tiled} \PY{o}{=} \PY{n}{global\PYZus{}feat\PYZus{}per\PYZus{}star}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Reshape global\PYZus{}feat\PYZus{}tiled to match the flat point structure for the MLP input}
+    \PY{c+c1}{\PYZsh{} global\PYZus{}feat\PYZus{}flat shape: [batch\PYZus{}size\PYZus{}of\PYZus{}stars * num\PYZus{}points\PYZus{}per\PYZus{}star, adv\PYZus{}global\PYZus{}feature\PYZus{}dim]}
+    \PY{n}{global\PYZus{}feat\PYZus{}flat} \PY{o}{=} \PY{n}{global\PYZus{}feat\PYZus{}tiled}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{adv\PYZus{}global\PYZus{}feature\PYZus{}dim}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Predict noise using the model}
+    \PY{n}{predicted\PYZus{}noise\PYZus{}flat} \PY{o}{=} \PY{n}{model\PYZus{}advanced}\PY{p}{(}\PY{n}{xt\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{t\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{global\PYZus{}feat\PYZus{}flat}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Calculate loss}
+    \PY{n}{loss} \PY{o}{=} \PY{n}{loss\PYZus{}fn\PYZus{}advanced}\PY{p}{(}\PY{n}{predicted\PYZus{}noise\PYZus{}flat}\PY{p}{,} \PY{n}{true\PYZus{}noise\PYZus{}flat}\PY{p}{)}
+    \PY{n}{loss}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}advanced}\PY{o}{.}\PY{n}{step}\PY{p}{(}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{epoch} \PY{o}{\PYZpc{}} \PY{l+m+mi}{1000} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Advanced Epoch }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Finished training for Advanced Part.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Sampling (Inference) for Advanced Part \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n+nd}{@torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{sample\PYZus{}ddpm\PYZus{}advanced}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}sample}\PY{p}{,} \PY{n}{num\PYZus{}diffusion\PYZus{}steps}\PY{p}{,} \PY{n}{device}\PY{p}{)}\PY{p}{:}
+    \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} num\PYZus{}points\PYZus{}in\PYZus{}sample: number of points for the single \PYZdq{}star\PYZdq{} realization we want to generate.}
+    \PY{n}{shape} \PY{o}{=} \PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}sample}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{)}
+
+    \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{shape}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)} \PY{c+c1}{\PYZsh{} Start from pure noise x\PYZus{}T}
+
+    \PY{k}{for} \PY{n}{t\PYZus{}val} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}diffusion\PYZus{}steps}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{time\PYZus{}tensor} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}sample}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{t\PYZus{}val}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n}{torch}\PY{o}{.}\PY{n}{long}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Calculate global feature for the current x\PYZus{}t (mean of all points currently being generated) [cite: 231]}
+        \PY{n}{current\PYZus{}global\PYZus{}feature} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{keepdim}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}sample}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+        \PY{n}{predicted\PYZus{}noise} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{time\PYZus{}tensor}\PY{p}{,} \PY{n}{current\PYZus{}global\PYZus{}feature}\PY{p}{)}
+
+        \PY{n}{alpha\PYZus{}t} \PY{o}{=} \PY{n}{alphas\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{alpha\PYZus{}t\PYZus{}cumprod} \PY{o}{=} \PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        
+        \PY{n}{eps\PYZus{}coeff} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t}\PY{p}{)} \PY{o}{/} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{mean} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alpha\PYZus{}t}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{x\PYZus{}t} \PY{o}{\PYZhy{}} \PY{n}{eps\PYZus{}coeff} \PY{o}{*} \PY{n}{predicted\PYZus{}noise}\PY{p}{)}
+
+        \PY{k}{if} \PY{n}{t\PYZus{}val} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{noise\PYZus{}on\PYZus{}step} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{variance\PYZus{}t} \PY{o}{=} \PY{n}{posterior\PYZus{}variance\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]} \PY{c+c1}{\PYZsh{} Use pre\PYZhy{}calculated beta\PYZus{}tilde\PYZus{}t}
+            \PY{n}{variance\PYZus{}t} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{clamp}\PY{p}{(}\PY{n}{variance\PYZus{}t}\PY{p}{,} \PY{n+nb}{min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)} \PY{c+c1}{\PYZsh{} for stability}
+            \PY{n}{noise\PYZus{}on\PYZus{}step} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{variance\PYZus{}t}\PY{p}{)} \PY{o}{*} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+
+        \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{mean} \PY{o}{+} \PY{n}{noise\PYZus{}on\PYZus{}step}
+    
+    \PY{n}{model}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{x\PYZus{}t}
+
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Generate and Visualize Samples for Advanced Part \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generating samples for Advanced Part...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Use the number of points per star from your dataset for consistency}
+\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample} \PY{o}{=} \PY{n}{stars\PYZus{}data}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{c+c1}{\PYZsh{} e.g., 1024}
+
+\PY{n}{generated\PYZus{}stars\PYZus{}points} \PY{o}{=} \PY{n}{sample\PYZus{}ddpm\PYZus{}advanced}\PY{p}{(}
+    \PY{n}{model\PYZus{}advanced}\PY{p}{,} 
+    \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample}\PY{p}{,} 
+    \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced}\PY{p}{,} 
+    \PY{n}{device}
+\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{generated\PYZus{}stars\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} 
+            \PY{n}{generated\PYZus{}stars\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} 
+            \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generated Star Sample}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Reduced point size for 1024 points}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generated }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Star}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ Sample (}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ points)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{} Important for 2D shapes}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Advanced Part script finished.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Using device: cuda
+Loaded stars data shape: torch.Size([1024, 1024, 2])
+ConditionalMLP initialized with input dim for main MLP: 194
+Starting training for Advanced Part: 20000 epochs, 16 stars per meta-batch.
+Advanced Epoch 0/20000, Loss: 1.0027449131011963
+Advanced Epoch 1000/20000, Loss: 0.2918339967727661
+Advanced Epoch 2000/20000, Loss: 0.28578418493270874
+Advanced Epoch 3000/20000, Loss: 0.27844762802124023
+Advanced Epoch 4000/20000, Loss: 0.27368515729904175
+Advanced Epoch 5000/20000, Loss: 0.2757890522480011
+Advanced Epoch 6000/20000, Loss: 0.2705654501914978
+Advanced Epoch 7000/20000, Loss: 0.27325546741485596
+Advanced Epoch 8000/20000, Loss: 0.2678976356983185
+Advanced Epoch 9000/20000, Loss: 0.27876460552215576
+Advanced Epoch 10000/20000, Loss: 0.272105872631073
+Advanced Epoch 11000/20000, Loss: 0.27184927463531494
+Advanced Epoch 12000/20000, Loss: 0.28257298469543457
+Advanced Epoch 13000/20000, Loss: 0.28130006790161133
+Advanced Epoch 14000/20000, Loss: 0.2691071629524231
+Advanced Epoch 15000/20000, Loss: 0.2673133909702301
+Advanced Epoch 16000/20000, Loss: 0.27997666597366333
+Advanced Epoch 17000/20000, Loss: 0.2677720785140991
+Advanced Epoch 18000/20000, Loss: 0.26292088627815247
+Advanced Epoch 19000/20000, Loss: 0.268792986869812
+Finished training for Advanced Part.
+Generating samples for Advanced Part{\ldots}
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Advanced Part script finished.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{torch}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{nn} \PY{k}{as} \PY{n+nn}{nn}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{optim} \PY{k}{as} \PY{n+nn}{optim}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} 0. Imports and Basic Setup \PYZhy{}\PYZhy{}\PYZhy{}}
+
+\PY{k}{class} \PY{n+nc}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{size}\PY{p}{:} \PY{n+nb}{int}\PY{p}{,} \PY{n}{scale}\PY{p}{:} \PY{n+nb}{float} \PY{o}{=} \PY{l+m+mf}{1.0}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{=} \PY{n}{size}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{scale} \PY{o}{=} \PY{n}{scale}
+
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{:} \PY{n}{torch}\PY{o}{.}\PY{n}{Tensor}\PY{p}{)}\PY{p}{:}
+        \PY{n}{device} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{device}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{scale}
+        \PY{n}{half\PYZus{}size} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2}
+        
+        \PY{k}{if} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{\PYZlt{}} \PY{l+m+mi}{2}\PY{p}{:}
+            \PY{k}{return} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{x}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+
+        \PY{n}{log\PYZus{}val} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{10000.0}\PY{p}{]}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{p}{)}
+        
+        \PY{n}{denominator} \PY{o}{=} \PY{n}{half\PYZus{}size} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+        \PY{k}{if} \PY{n}{denominator} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{div\PYZus{}val} \PY{o}{=} \PY{n}{log\PYZus{}val} 
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{div\PYZus{}val} \PY{o}{=} \PY{n}{log\PYZus{}val} \PY{o}{/} \PY{n}{denominator}
+
+        \PY{n}{arange\PYZus{}tensor} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{half\PYZus{}size}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}
+        \PY{n}{emb\PYZus{}base} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{div\PYZus{}val} \PY{o}{*} \PY{n}{arange\PYZus{}tensor}\PY{p}{)}
+
+        \PY{n}{emb} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{*} \PY{n}{emb\PYZus{}base}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+        \PY{n}{emb} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{emb}\PY{p}{)}\PY{p}{,} \PY{n}{torch}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{emb}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        
+        \PY{k}{if} \PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}\PY{p}{:}
+             \PY{n}{padding} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size} \PY{o}{\PYZhy{}} \PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+             \PY{n}{emb} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{(}\PY{n}{emb}\PY{p}{,} \PY{n}{padding}\PY{p}{)}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{elif} \PY{n}{emb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}\PY{p}{:}
+             \PY{n}{emb} \PY{o}{=} \PY{n}{emb}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{:}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}\PY{p}{]}
+        \PY{k}{return} \PY{n}{emb}
+
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}len\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{size}
+
+\PY{n}{device} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cuda}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{is\PYZus{}available}\PY{p}{(}\PY{p}{)} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cpu}\PY{l+s+s2}{\PYZdq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Using device: }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{*} \PY{l+m+mi}{50}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} 1. Mandatory Task 1: 1D Forward and Reverse Diffusion \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Starting Mandatory Task 1: 1D Diffusion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{m\PYZus{}x0\PYZus{}task1} \PY{o}{=} \PY{l+m+mf}{0.0}
+\PY{n}{p\PYZus{}x0\PYZus{}task1} \PY{o}{=} \PY{l+m+mf}{1.0}
+\PY{n}{T\PYZus{}steps\PYZus{}task1} \PY{o}{=} \PY{l+m+mi}{50}
+\PY{n}{betas\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.0001}\PY{p}{,} \PY{l+m+mf}{0.02}\PY{p}{,} \PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{alphas\PYZus{}task1} \PY{o}{=} \PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{betas\PYZus{}task1}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{n}{alphas\PYZus{}task1}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{)}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{q\PYZus{}sample\PYZus{}task1}\PY{p}{(}\PY{n}{x\PYZus{}0}\PY{p}{,} \PY{n}{t\PYZus{}idx}\PY{p}{,} \PY{n}{noise\PYZus{}val}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{noise\PYZus{}val} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+        \PY{n}{noise\PYZus{}val} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}0}\PY{p}{)}
+    \PY{n}{sqrt\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{*} \PY{n}{x\PYZus{}0} \PY{o}{+} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{*} \PY{n}{noise\PYZus{}val}
+    \PY{k}{return} \PY{n}{x\PYZus{}t}
+
+\PY{n}{num\PYZus{}trajectories\PYZus{}task1} \PY{o}{=} \PY{l+m+mi}{100}
+\PY{n}{x0\PYZus{}samples\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{m\PYZus{}x0\PYZus{}task1}\PY{p}{,} \PY{n}{p\PYZus{}x0\PYZus{}task1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{num\PYZus{}trajectories\PYZus{}task1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{forward\PYZus{}trajectories\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{num\PYZus{}trajectories\PYZus{}task1}\PY{p}{,} \PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}trajectories\PYZus{}task1}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{t\PYZus{}idx} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{)}\PY{p}{:}
+        \PY{n}{forward\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{t\PYZus{}idx}\PY{p}{]} \PY{o}{=} \PY{n}{q\PYZus{}sample\PYZus{}task1}\PY{p}{(}\PY{n}{x0\PYZus{}samples\PYZus{}task1}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{t\PYZus{}idx}\PY{p}{)}
+\PY{n}{x\PYZus{}T\PYZus{}samples\PYZus{}task1} \PY{o}{=} \PY{n}{forward\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{p}{:}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mean of x\PYZus{}T (Task 1): }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}T\PYZus{}samples\PYZus{}task1}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Std of x\PYZus{}T (Task 1): }\PY{l+s+si}{\PYZob{}}\PY{n}{x\PYZus{}T\PYZus{}samples\PYZus{}task1}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{q\PYZus{}posterior\PYZus{}mean\PYZus{}variance\PYZus{}task1}\PY{p}{(}\PY{n}{x\PYZus{}0}\PY{p}{,} \PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{t\PYZus{}idx}\PY{p}{)}\PY{p}{:}
+    \PY{n}{beta\PYZus{}t} \PY{o}{=} \PY{n}{betas\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{alpha\PYZus{}t\PYZus{}cumprod} \PY{o}{=} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{alpha\PYZus{}t\PYZus{}cumprod\PYZus{}prev} \PY{o}{=} \PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{alpha\PYZus{}t} \PY{o}{=} \PY{n}{alphas\PYZus{}task1}\PY{p}{[}\PY{n}{t\PYZus{}idx}\PY{p}{]}
+    \PY{n}{posterior\PYZus{}mean} \PY{o}{=} \PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alpha\PYZus{}t\PYZus{}cumprod\PYZus{}prev}\PY{p}{)} \PY{o}{*} \PY{n}{beta\PYZus{}t} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{x\PYZus{}0} \PY{o}{+} \PYZbs{}
+                     \PY{p}{(}\PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alpha\PYZus{}t}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod\PYZus{}prev}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{n}{x\PYZus{}t}
+    \PY{n}{posterior\PYZus{}variance} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod\PYZus{}prev}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod}\PY{p}{)} \PY{o}{*} \PY{n}{beta\PYZus{}t}
+    \PY{k}{return} \PY{n}{posterior\PYZus{}mean}\PY{p}{,} \PY{n}{posterior\PYZus{}variance}
+
+\PY{n}{num\PYZus{}reverse\PYZus{}trajectories\PYZus{}task1} \PY{o}{=} \PY{l+m+mi}{10}
+\PY{n}{x0\PYZus{}target\PYZus{}for\PYZus{}reverse\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{m\PYZus{}x0\PYZus{}task1}\PY{p}{,} \PY{n}{p\PYZus{}x0\PYZus{}task1}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{num\PYZus{}reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x0\PYZus{}target\PYZus{}for\PYZus{}reverse\PYZus{}task1}\PY{p}{)}
+\PY{n}{reverse\PYZus{}trajectories\PYZus{}task1} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{num\PYZus{}reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{,} \PY{n}{T\PYZus{}steps\PYZus{}task1} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{,} \PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1}
+\PY{k}{for} \PY{n}{t\PYZus{}loop\PYZus{}idx} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{mean}\PY{p}{,} \PY{n}{var} \PY{o}{=} \PY{n}{q\PYZus{}posterior\PYZus{}mean\PYZus{}variance\PYZus{}task1}\PY{p}{(}\PY{n}{x0\PYZus{}target\PYZus{}for\PYZus{}reverse\PYZus{}task1}\PY{p}{,} \PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1}\PY{p}{,} \PY{n}{t\PYZus{}loop\PYZus{}idx}\PY{p}{)}
+    \PY{n}{noise\PYZus{}val} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1}\PY{p}{)} \PY{k}{if} \PY{n}{t\PYZus{}loop\PYZus{}idx} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1}\PY{p}{)}
+    \PY{n}{var} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{clamp}\PY{p}{(}\PY{n}{var}\PY{p}{,} \PY{n+nb}{min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+    \PY{n}{x\PYZus{}t\PYZus{}prev} \PY{o}{=} \PY{n}{mean} \PY{o}{+} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{var}\PY{p}{)} \PY{o}{*} \PY{n}{noise\PYZus{}val}
+    \PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1} \PY{o}{=} \PY{n}{x\PYZus{}t\PYZus{}prev}
+    \PY{n}{reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{t\PYZus{}loop\PYZus{}idx}\PY{p}{,} \PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{x\PYZus{}t\PYZus{}current\PYZus{}task1}
+\PY{n}{x0\PYZus{}reconstructed\PYZus{}task1} \PY{o}{=} \PY{n}{reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{p}{:}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mandatory Task 1: 1D Diffusion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Forward Trajectories}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{min}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{num\PYZus{}trajectories\PYZus{}task1}\PY{p}{)}\PY{p}{)}\PY{p}{:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{T\PYZus{}steps\PYZus{}task1}\PY{p}{)}\PY{p}{,} \PY{n}{forward\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Timestep t}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}t}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of x\PYZus{}T (Forward)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{x\PYZus{}T\PYZus{}samples\PYZus{}task1}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{density}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}T value}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Density}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reverse Trajectories (Guided by known x0)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{min}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{num\PYZus{}reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{)}\PY{p}{)}\PY{p}{:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{T\PYZus{}steps\PYZus{}task1} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{reverse\PYZus{}trajectories\PYZus{}task1}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Timestep t (reversed)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x\PYZus{}t}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of Reconstructed x\PYZus{}0 (Reverse)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{x0\PYZus{}reconstructed\PYZus{}task1}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{30}\PY{p}{,} \PY{n}{density}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reconstructed x\PYZus{}0 value}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Density}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{n}{rect}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mf}{0.96}\PY{p}{]}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Finished Mandatory Task 1.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{*} \PY{l+m+mi}{50}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} 2. Mandatory Task 2: 2D Denoising with Neural Network \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Starting Mandatory Task 2: 2D Denoising with MLP}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{try}\PY{p}{:}
+    \PY{n}{circle\PYZus{}data\PYZus{}np} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{circle\PYZus{}pts.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{dinohead\PYZus{}data\PYZus{}np} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dinohead\PYZus{}pts.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{square\PYZus{}data\PYZus{}np} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{square\PYZus{}pts.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{circle\PYZus{}data\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{from\PYZus{}numpy}\PY{p}{(}\PY{n}{circle\PYZus{}data\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{dinohead\PYZus{}data\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{from\PYZus{}numpy}\PY{p}{(}\PY{n}{dinohead\PYZus{}data\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{square\PYZus{}data\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{from\PYZus{}numpy}\PY{p}{(}\PY{n}{square\PYZus{}data\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loaded circle\PYZus{}pts.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{circle\PYZus{}data\PYZus{}task2}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loaded dinohead\PYZus{}pts.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{dinohead\PYZus{}data\PYZus{}task2}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loaded square\PYZus{}pts.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{square\PYZus{}data\PYZus{}task2}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{FileNotFoundError} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error loading data files for Task 2: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{. Please ensure .npy files are present.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{datasets\PYZus{}to\PYZus{}train\PYZus{}task2} \PY{o}{=} \PY{p}{[}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Circle}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{circle\PYZus{}data\PYZus{}task2}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Square}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{square\PYZus{}data\PYZus{}task2}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dinohead}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dinohead\PYZus{}data\PYZus{}task2}\PY{p}{)}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} MLP for Noise Prediction (Task 2) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{class} \PY{n+nc}{SimplerNoisePredictionMLP}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{128}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n}{fc\PYZus{}input\PYZus{}dim} \PY{o}{=} \PY{n}{time\PYZus{}emb\PYZus{}dim} \PY{o}{+} \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim} \PY{o}{*} \PY{l+m+mi}{2}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{fc\PYZus{}input\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{p}{)}
+        \PY{p}{)}
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x\PYZus{}points}\PY{p}{,} \PY{n}{time\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+        \PY{n}{t\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder}\PY{p}{(}\PY{n}{time\PYZus{}steps}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x\PYZus{}coord\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+        \PY{n}{y\PYZus{}coord\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n}{point\PYZus{}embeddings} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{x\PYZus{}coord\PYZus{}emb}\PY{p}{,} \PY{n}{y\PYZus{}coord\PYZus{}emb}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{combined\PYZus{}input} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{point\PYZus{}embeddings}\PY{p}{,} \PY{n}{t\PYZus{}emb}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp}\PY{p}{(}\PY{n}{combined\PYZus{}input}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Diffusion Parameters for Task 2 (common for all shapes) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}task2} \PY{o}{=} \PY{l+m+mi}{1000}
+\PY{n}{betas\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.0001}\PY{p}{,} \PY{l+m+mf}{0.02}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}task2}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}
+\PY{n}{alphas\PYZus{}task2} \PY{o}{=} \PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{betas\PYZus{}task2}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cumprod}\PY{p}{(}\PY{n}{alphas\PYZus{}task2}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{)}
+\PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{)}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}task2} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{[}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+\PY{n}{posterior\PYZus{}variance\PYZus{}task2} \PY{o}{=} \PY{n}{betas\PYZus{}task2} \PY{o}{*} \PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}prev\PYZus{}task2}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mf}{1.} \PY{o}{\PYZhy{}} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{q\PYZus{}sample\PYZus{}task2}\PY{p}{(}\PY{n}{x\PYZus{}0}\PY{p}{,} \PY{n}{t\PYZus{}indices}\PY{p}{,} \PY{n}{noise\PYZus{}val}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{noise\PYZus{}val} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:} \PY{n}{noise\PYZus{}val} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}0}\PY{p}{)}
+    \PY{n}{sqrt\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{[}\PY{n}{t\PYZus{}indices}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{[}\PY{n}{t\PYZus{}indices}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{sqrt\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{*} \PY{n}{x\PYZus{}0} \PY{o}{+} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}cumprod\PYZus{}t} \PY{o}{*} \PY{n}{noise\PYZus{}val}
+    \PY{k}{return} \PY{n}{x\PYZus{}t}
+
+\PY{n+nd}{@torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{sample\PYZus{}ddpm}\PY{p}{(}\PY{n}{model\PYZus{}to\PYZus{}sample}\PY{p}{,} \PY{n}{shape\PYZus{}to\PYZus{}sample}\PY{p}{,} \PY{n}{num\PYZus{}total\PYZus{}steps}\PY{p}{,} \PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{,} 
+                \PY{n}{alphas\PYZus{}param}\PY{p}{,} \PY{n}{alphas\PYZus{}cumprod\PYZus{}param}\PY{p}{,} \PY{n}{betas\PYZus{}param}\PY{p}{,} \PY{n}{posterior\PYZus{}variance\PYZus{}param}\PY{p}{)}\PY{p}{:}
+    \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{n}{batch\PYZus{}size} \PY{o}{=} \PY{n}{shape\PYZus{}to\PYZus{}sample}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{shape\PYZus{}to\PYZus{}sample}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{)}
+    \PY{k}{for} \PY{n}{t\PYZus{}val} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}total\PYZus{}steps}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{time\PYZus{}tensor} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{p}{(}\PY{n}{batch\PYZus{}size}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{t\PYZus{}val}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n}{torch}\PY{o}{.}\PY{n}{long}\PY{p}{)}
+        \PY{n}{predicted\PYZus{}noise} \PY{o}{=} \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{time\PYZus{}tensor}\PY{p}{)}
+        \PY{n}{alpha\PYZus{}t} \PY{o}{=} \PY{n}{alphas\PYZus{}param}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{alpha\PYZus{}t\PYZus{}cumprod} \PY{o}{=} \PY{n}{alphas\PYZus{}cumprod\PYZus{}param}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}t\PYZus{}cumprod} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t\PYZus{}cumprod}\PY{p}{)}
+        \PY{n}{eps\PYZus{}coeff} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t}\PY{p}{)} \PY{o}{/} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}t\PYZus{}cumprod}
+        \PY{n}{mean} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.0} \PY{o}{/} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alpha\PYZus{}t}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{x\PYZus{}t} \PY{o}{\PYZhy{}} \PY{n}{eps\PYZus{}coeff} \PY{o}{*} \PY{n}{predicted\PYZus{}noise}\PY{p}{)}
+        \PY{k}{if} \PY{n}{t\PYZus{}val} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{)}
+            \PY{n}{noise\PYZus{}value} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{posterior\PYZus{}variance\PYZus{}param}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{clamp}\PY{p}{(}\PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var}\PY{p}{,} \PY{n+nb}{min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+            \PY{n}{noise\PYZus{}value} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+        \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{mean} \PY{o}{+} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var}\PY{p}{)} \PY{o}{*} \PY{n}{noise\PYZus{}value}
+    \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{x\PYZus{}t}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Loop to Train Separate Models for Each Shape in Task 2 \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{num\PYZus{}epochs\PYZus{}task2} \PY{o}{=} \PY{l+m+mi}{10000} \PY{c+c1}{\PYZsh{} Adjust as needed (e.g., 10k for quick demo, 20k\PYZhy{}50k for better results)}
+\PY{n}{batch\PYZus{}size\PYZus{}task2} \PY{o}{=} \PY{l+m+mi}{128}
+\PY{n}{learning\PYZus{}rate\PYZus{}task2} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}3}
+
+\PY{k}{for} \PY{n}{shape\PYZus{}name}\PY{p}{,} \PY{n}{current\PYZus{}data\PYZus{}task2\PYZus{}selected} \PY{o+ow}{in} \PY{n}{datasets\PYZus{}to\PYZus{}train\PYZus{}task2}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Training for Shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{shape\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dataset shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{current\PYZus{}data\PYZus{}task2\PYZus{}selected}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{point\PYZus{}dim\PYZus{}task2} \PY{o}{=} \PY{n}{current\PYZus{}data\PYZus{}task2\PYZus{}selected}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{model\PYZus{}task2\PYZus{}current\PYZus{}shape} \PY{o}{=} \PY{n}{SimplerNoisePredictionMLP}\PY{p}{(}
+        \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{n}{point\PYZus{}dim\PYZus{}task2}\PY{p}{,} \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} 
+        \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{128}
+    \PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}task2\PYZus{}current\PYZus{}shape} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}task2\PYZus{}current\PYZus{}shape}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{learning\PYZus{}rate\PYZus{}task2}\PY{p}{)}
+    \PY{n}{loss\PYZus{}fn\PYZus{}task2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MSELoss}\PY{p}{(}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Starting Task 2 training for }\PY{l+s+si}{\PYZob{}}\PY{n}{shape\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}task2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ epochs.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}epochs\PYZus{}task2}\PY{p}{)}\PY{p}{:}
+        \PY{n}{optimizer\PYZus{}task2\PYZus{}current\PYZus{}shape}\PY{o}{.}\PY{n}{zero\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+        \PY{n}{indices} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{current\PYZus{}data\PYZus{}task2\PYZus{}selected}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}task2}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x0\PYZus{}batch} \PY{o}{=} \PY{n}{current\PYZus{}data\PYZus{}task2\PYZus{}selected}\PY{p}{[}\PY{n}{indices}\PY{p}{]}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+        \PY{n}{t\PYZus{}sampled} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}task2}\PY{p}{,} \PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}task2}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{o}{.}\PY{n}{long}\PY{p}{(}\PY{p}{)}
+        \PY{n}{true\PYZus{}noise\PYZus{}sampled} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x0\PYZus{}batch}\PY{p}{)}
+        \PY{n}{xt\PYZus{}batch} \PY{o}{=} \PY{n}{q\PYZus{}sample\PYZus{}task2}\PY{p}{(}\PY{n}{x0\PYZus{}batch}\PY{p}{,} \PY{n}{t\PYZus{}sampled}\PY{p}{,} \PY{n}{noise\PYZus{}val}\PY{o}{=}\PY{n}{true\PYZus{}noise\PYZus{}sampled}\PY{p}{)}
+        \PY{n}{predicted\PYZus{}noise} \PY{o}{=} \PY{n}{model\PYZus{}task2\PYZus{}current\PYZus{}shape}\PY{p}{(}\PY{n}{xt\PYZus{}batch}\PY{p}{,} \PY{n}{t\PYZus{}sampled}\PY{p}{)}
+        \PY{n}{loss} \PY{o}{=} \PY{n}{loss\PYZus{}fn\PYZus{}task2}\PY{p}{(}\PY{n}{predicted\PYZus{}noise}\PY{p}{,} \PY{n}{true\PYZus{}noise\PYZus{}sampled}\PY{p}{)}
+        \PY{n}{loss}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+        \PY{n}{optimizer\PYZus{}task2\PYZus{}current\PYZus{}shape}\PY{o}{.}\PY{n}{step}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{epoch} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2000} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:} \PY{c+c1}{\PYZsh{} Log less frequently for multiple shapes}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Shape }\PY{l+s+si}{\PYZob{}}\PY{n}{shape\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZhy{} Epoch }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}task2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Finished Task 2 training for }\PY{l+s+si}{\PYZob{}}\PY{n}{shape\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{num\PYZus{}generated\PYZus{}samples\PYZus{}task2} \PY{o}{=} \PY{l+m+mi}{500}
+    \PY{n}{generated\PYZus{}points\PYZus{}task2} \PY{o}{=} \PY{n}{sample\PYZus{}ddpm}\PY{p}{(}
+        \PY{n}{model\PYZus{}task2\PYZus{}current\PYZus{}shape}\PY{p}{,}
+        \PY{p}{(}\PY{n}{num\PYZus{}generated\PYZus{}samples\PYZus{}task2}\PY{p}{,} \PY{n}{point\PYZus{}dim\PYZus{}task2}\PY{p}{)}\PY{p}{,}
+        \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}task2}\PY{p}{,} \PY{n}{device}\PY{p}{,}
+        \PY{n}{alphas\PYZus{}task2}\PY{p}{,} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}\PY{p}{,} \PY{n}{betas\PYZus{}task2}\PY{p}{,} \PY{n}{posterior\PYZus{}variance\PYZus{}task2}
+    \PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mandatory Task 2: Generated }\PY{l+s+si}{\PYZob{}}\PY{n}{shape\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}generated\PYZus{}samples\PYZus{}task2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ points)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{generated\PYZus{}points\PYZus{}task2}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{generated\PYZus{}points\PYZus{}task2}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Finished All Shapes for Mandatory Task 2.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{*} \PY{l+m+mi}{50}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} 3. Advanced Part: Conditional Generation for \PYZdq{}Stars\PYZdq{} Dataset \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} ==============================================================================}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Starting Advanced Part: Conditional Generation for }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Stars}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ Dataset}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{try}\PY{p}{:}
+    \PY{n}{stars\PYZus{}data\PYZus{}np} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{stars\PYZus{}data.npy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{stars\PYZus{}data\PYZus{}adv} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{from\PYZus{}numpy}\PY{p}{(}\PY{n}{stars\PYZus{}data\PYZus{}np}\PY{p}{)}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Loaded stars\PYZus{}data.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{3} \PY{o+ow}{or} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{2}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: stars\PYZus{}data.npy does not have shape [num\PYZus{}stars, num\PYZus{}points\PYZus{}per\PYZus{}star, 2].}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{FileNotFoundError}\PY{p}{:} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error: stars\PYZus{}data.npy not found.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error loading stars\PYZus{}data.npy: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{exit}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{class} \PY{n+nc}{ConditionalNoisePredictionMLP}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,} \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,}
+                 \PY{n}{global\PYZus{}feature\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{256}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder} \PY{o}{=} \PY{n}{SinusoidalEmbedding}\PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{p}{)}
+        \PY{n}{fc\PYZus{}input\PYZus{}dim} \PY{o}{=} \PY{n}{time\PYZus{}emb\PYZus{}dim} \PY{o}{+} \PY{p}{(}\PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim} \PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)} \PY{o}{+} \PY{n}{global\PYZus{}feature\PYZus{}dim}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{fc\PYZus{}input\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Mish}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{n}{hidden\PYZus{}dim}\PY{p}{,} \PY{n}{point\PYZus{}dim}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ConditionalMLP initialized with input dim for main MLP: }\PY{l+s+si}{\PYZob{}}\PY{n}{fc\PYZus{}input\PYZus{}dim}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x\PYZus{}points}\PY{p}{,} \PY{n}{time\PYZus{}steps}\PY{p}{,} \PY{n}{global\PYZus{}batch\PYZus{}feature}\PY{p}{)}\PY{p}{:}
+        \PY{n}{t\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{time\PYZus{}embedder}\PY{p}{(}\PY{n}{time\PYZus{}steps}\PY{o}{.}\PY{n}{float}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{point\PYZus{}x\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}x\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+        \PY{n}{point\PYZus{}y\PYZus{}emb} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{point\PYZus{}y\PYZus{}embedder}\PY{p}{(}\PY{n}{x\PYZus{}points}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+        \PY{n}{point\PYZus{}embeddings} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{point\PYZus{}x\PYZus{}emb}\PY{p}{,} \PY{n}{point\PYZus{}y\PYZus{}emb}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{combined\PYZus{}input} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{cat}\PY{p}{(}\PY{p}{[}\PY{n}{point\PYZus{}embeddings}\PY{p}{,} \PY{n}{t\PYZus{}emb}\PY{p}{,} \PY{n}{global\PYZus{}batch\PYZus{}feature}\PY{p}{]}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{return} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{model\PYZus{}mlp}\PY{p}{(}\PY{n}{combined\PYZus{}input}\PY{p}{)}
+
+\PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced} \PY{o}{=} \PY{l+m+mi}{1000}
+\PY{n}{betas\PYZus{}advanced} \PY{o}{=} \PY{n}{betas\PYZus{}task2} 
+\PY{n}{alphas\PYZus{}advanced} \PY{o}{=} \PY{n}{alphas\PYZus{}task2}
+\PY{n}{alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{alphas\PYZus{}cumprod\PYZus{}task2}
+\PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2}
+\PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}task2}
+\PY{n}{posterior\PYZus{}variance\PYZus{}advanced} \PY{o}{=} \PY{n}{posterior\PYZus{}variance\PYZus{}task2}
+
+\PY{k}{def} \PY{n+nf}{q\PYZus{}sample\PYZus{}adv\PYZus{}wrapper}\PY{p}{(}\PY{n}{x\PYZus{}0\PYZus{}points}\PY{p}{,} \PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{,} \PY{n}{noise\PYZus{}points}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{noise\PYZus{}points} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:} \PY{n}{noise\PYZus{}points} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}0\PYZus{}points}\PY{p}{)}
+    \PY{n}{batch\PYZus{}sqrt\PYZus{}alphas\PYZus{}cumprod} \PY{o}{=} \PY{n}{sqrt\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{batch\PYZus{}sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{[}\PY{n}{t\PYZus{}indices\PYZus{}points}\PY{p}{]}\PY{o}{.}\PY{n}{unsqueeze}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{xt\PYZus{}points} \PY{o}{=} \PY{n}{batch\PYZus{}sqrt\PYZus{}alphas\PYZus{}cumprod} \PY{o}{*} \PY{n}{x\PYZus{}0\PYZus{}points} \PY{o}{+} \PY{n}{batch\PYZus{}sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod} \PY{o}{*} \PY{n}{noise\PYZus{}points}
+    \PY{k}{return} \PY{n}{xt\PYZus{}points}
+
+\PY{n}{adv\PYZus{}point\PYZus{}dim} \PY{o}{=} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{model\PYZus{}advanced} \PY{o}{=} \PY{n}{ConditionalNoisePredictionMLP}\PY{p}{(}
+    \PY{n}{point\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{,} \PY{n}{time\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,} \PY{n}{point\PYZus{}coord\PYZus{}emb\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{64}\PY{p}{,}
+    \PY{n}{global\PYZus{}feature\PYZus{}dim}\PY{o}{=}\PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{,} \PY{n}{hidden\PYZus{}dim}\PY{o}{=}\PY{l+m+mi}{256}
+\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+\PY{n}{optimizer\PYZus{}advanced} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}advanced}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}4}\PY{p}{)}
+\PY{n}{loss\PYZus{}fn\PYZus{}advanced} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MSELoss}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{num\PYZus{}epochs\PYZus{}advanced} \PY{o}{=} \PY{l+m+mi}{20000} 
+\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars} \PY{o}{=} \PY{l+m+mi}{16} 
+\PY{n}{num\PYZus{}total\PYZus{}stars} \PY{o}{=} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star} \PY{o}{=} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Starting Advanced Part training: }\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ epochs, }\PY{l+s+si}{\PYZob{}}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ stars per meta\PYZhy{}batch.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{p}{)}\PY{p}{:}
+    \PY{n}{optimizer\PYZus{}advanced}\PY{o}{.}\PY{n}{zero\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+    \PY{n}{star\PYZus{}indices} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}total\PYZus{}stars}\PY{p}{,} \PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{p}{,}\PY{p}{)}\PY{p}{)}
+    \PY{n}{x0\PYZus{}stars\PYZus{}batch} \PY{o}{=} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{p}{[}\PY{n}{star\PYZus{}indices}\PY{p}{]}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{x0\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{x0\PYZus{}stars\PYZus{}batch}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{)}
+    \PY{n}{t\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randint}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced}\PY{p}{,} \PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device}\PY{p}{)}\PY{o}{.}\PY{n}{long}\PY{p}{(}\PY{p}{)}
+    \PY{n}{true\PYZus{}noise\PYZus{}flat} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{p}{)}
+    \PY{n}{xt\PYZus{}points\PYZus{}flat} \PY{o}{=} \PY{n}{q\PYZus{}sample\PYZus{}adv\PYZus{}wrapper}\PY{p}{(}\PY{n}{x0\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{t\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{noise\PYZus{}points}\PY{o}{=}\PY{n}{true\PYZus{}noise\PYZus{}flat}\PY{p}{)}
+    \PY{n}{xt\PYZus{}stars\PYZus{}view} \PY{o}{=} \PY{n}{xt\PYZus{}points\PYZus{}flat}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{batch\PYZus{}size\PYZus{}of\PYZus{}stars}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}\PY{p}{)}
+    \PY{n}{global\PYZus{}feat\PYZus{}per\PYZus{}star} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{xt\PYZus{}stars\PYZus{}view}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdim}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{global\PYZus{}feat\PYZus{}tiled} \PY{o}{=} \PY{n}{global\PYZus{}feat\PYZus{}per\PYZus{}star}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{global\PYZus{}feat\PYZus{}flat} \PY{o}{=} \PY{n}{global\PYZus{}feat\PYZus{}tiled}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{adv\PYZus{}global\PYZus{}feature\PYZus{}dim}\PY{p}{)}
+    \PY{n}{predicted\PYZus{}noise\PYZus{}flat} \PY{o}{=} \PY{n}{model\PYZus{}advanced}\PY{p}{(}\PY{n}{xt\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{t\PYZus{}points\PYZus{}flat}\PY{p}{,} \PY{n}{global\PYZus{}feat\PYZus{}flat}\PY{p}{)}
+    \PY{n}{loss} \PY{o}{=} \PY{n}{loss\PYZus{}fn\PYZus{}advanced}\PY{p}{(}\PY{n}{predicted\PYZus{}noise\PYZus{}flat}\PY{p}{,} \PY{n}{true\PYZus{}noise\PYZus{}flat}\PY{p}{)}
+    \PY{n}{loss}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}\PY{p}{;} \PY{n}{optimizer\PYZus{}advanced}\PY{o}{.}\PY{n}{step}\PY{p}{(}\PY{p}{)}
+    \PY{k}{if} \PY{n}{epoch} \PY{o}{\PYZpc{}} \PY{l+m+mi}{1000} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Advanced Epoch }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs\PYZus{}advanced}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Finished training for Advanced Part.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n+nd}{@torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{sample\PYZus{}ddpm\PYZus{}advanced}\PY{p}{(}\PY{n}{model\PYZus{}to\PYZus{}sample}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}gen\PYZus{}sample}\PY{p}{,} \PY{n}{num\PYZus{}total\PYZus{}steps}\PY{p}{,} \PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{,}
+                         \PY{n}{alphas\PYZus{}param\PYZus{}adv}\PY{p}{,} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}param\PYZus{}adv}\PY{p}{,} 
+                         \PY{n}{posterior\PYZus{}variance\PYZus{}param\PYZus{}adv}\PY{p}{,} \PY{n}{point\PYZus{}dim\PYZus{}adv\PYZus{}param}\PY{p}{)}\PY{p}{:}
+    \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{n}{shape\PYZus{}to\PYZus{}sample} \PY{o}{=} \PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}gen\PYZus{}sample}\PY{p}{,} \PY{n}{point\PYZus{}dim\PYZus{}adv\PYZus{}param}\PY{p}{)}
+    \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{shape\PYZus{}to\PYZus{}sample}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{)}
+    \PY{k}{for} \PY{n}{t\PYZus{}val} \PY{o+ow}{in} \PY{n+nb}{reversed}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}total\PYZus{}steps}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{time\PYZus{}tensor} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{full}\PY{p}{(}\PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}gen\PYZus{}sample}\PY{p}{,}\PY{p}{)}\PY{p}{,} \PY{n}{t\PYZus{}val}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n}{torch}\PY{o}{.}\PY{n}{long}\PY{p}{)}
+        \PY{n}{current\PYZus{}global\PYZus{}feature} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{keepdim}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{repeat}\PY{p}{(}\PY{n}{num\PYZus{}points\PYZus{}in\PYZus{}gen\PYZus{}sample}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{predicted\PYZus{}noise} \PY{o}{=} \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{,} \PY{n}{time\PYZus{}tensor}\PY{p}{,} \PY{n}{current\PYZus{}global\PYZus{}feature}\PY{p}{)}
+        \PY{n}{alpha\PYZus{}t} \PY{o}{=} \PY{n}{alphas\PYZus{}param\PYZus{}adv}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}t\PYZus{}cumprod} \PY{o}{=} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}param\PYZus{}adv}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+        \PY{n}{eps\PYZus{}coeff} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{alpha\PYZus{}t}\PY{p}{)} \PY{o}{/} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alpha\PYZus{}t\PYZus{}cumprod}
+        \PY{n}{mean} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{/} \PY{n}{torch}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{alpha\PYZus{}t}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{x\PYZus{}t} \PY{o}{\PYZhy{}} \PY{n}{eps\PYZus{}coeff} \PY{o}{*} \PY{n}{predicted\PYZus{}noise}\PY{p}{)}
+        \PY{k}{if} \PY{n}{t\PYZus{}val} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{tensor}\PY{p}{(}\PY{l+m+mf}{0.0}\PY{p}{,} \PY{n}{device}\PY{o}{=}\PY{n}{device\PYZus{}to\PYZus{}sample\PYZus{}on}\PY{p}{)}
+            \PY{n}{noise\PYZus{}value} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{posterior\PYZus{}variance\PYZus{}param\PYZus{}adv}\PY{p}{[}\PY{n}{t\PYZus{}val}\PY{p}{]}
+            \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{clamp}\PY{p}{(}\PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var}\PY{p}{,} \PY{n+nb}{min}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}20}\PY{p}{)}
+            \PY{n}{noise\PYZus{}value} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{randn\PYZus{}like}\PY{p}{(}\PY{n}{x\PYZus{}t}\PY{p}{)}
+        \PY{n}{x\PYZus{}t} \PY{o}{=} \PY{n}{mean} \PY{o}{+} \PY{n}{noise\PYZus{}on\PYZus{}step\PYZus{}var}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{noise\PYZus{}value}
+    \PY{n}{model\PYZus{}to\PYZus{}sample}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{x\PYZus{}t}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Generating samples for Advanced Part...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample\PYZus{}adv} \PY{o}{=} \PY{n}{stars\PYZus{}data\PYZus{}adv}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{generated\PYZus{}stars\PYZus{}points\PYZus{}adv} \PY{o}{=} \PY{n}{sample\PYZus{}ddpm\PYZus{}advanced}\PY{p}{(}
+    \PY{n}{model\PYZus{}advanced}\PY{p}{,} \PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample\PYZus{}adv}\PY{p}{,} \PY{n}{T\PYZus{}diffusion\PYZus{}steps\PYZus{}advanced}\PY{p}{,} \PY{n}{device}\PY{p}{,}
+    \PY{n}{alphas\PYZus{}advanced}\PY{p}{,} \PY{n}{sqrt\PYZus{}one\PYZus{}minus\PYZus{}alphas\PYZus{}cumprod\PYZus{}advanced}\PY{p}{,}
+    \PY{n}{posterior\PYZus{}variance\PYZus{}advanced}\PY{p}{,} \PY{n}{adv\PYZus{}point\PYZus{}dim}
+\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Advanced Part: Generated }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{Star}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}points\PYZus{}per\PYZus{}star\PYZus{}sample\PYZus{}adv}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ points)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{generated\PYZus{}stars\PYZus{}points\PYZus{}adv}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{generated\PYZus{}stars\PYZus{}points\PYZus{}adv}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}\PY{p}{;} \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Project IV script finished.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{;} \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{*} \PY{l+m+mi}{50}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Using device: cuda
+--------------------------------------------------
+
+Starting Mandatory Task 1: 1D Diffusion
+Mean of x\_T (Task 1): 0.0350, Std of x\_T (Task 1): 0.8153
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_1_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Finished Mandatory Task 1.
+--------------------------------------------------
+
+Starting Mandatory Task 2: 2D Denoising with MLP
+Loaded circle\_pts.npy: torch.Size([1000, 2])
+Loaded dinohead\_pts.npy: torch.Size([10240, 2])
+Loaded square\_pts.npy: torch.Size([1000, 2])
+
+--- Training for Shape: Circle ---
+Dataset shape: torch.Size([1000, 2])
+Starting Task 2 training for Circle: 10000 epochs.
+Shape Circle - Epoch 0/10000, Loss: 1.1771
+Shape Circle - Epoch 2000/10000, Loss: 0.2185
+Shape Circle - Epoch 4000/10000, Loss: 0.2491
+Shape Circle - Epoch 6000/10000, Loss: 0.3816
+Shape Circle - Epoch 8000/10000, Loss: 0.3802
+Finished Task 2 training for Circle.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_1_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Training for Shape: Square ---
+Dataset shape: torch.Size([1000, 2])
+Starting Task 2 training for Square: 10000 epochs.
+Shape Square - Epoch 0/10000, Loss: 0.9833
+Shape Square - Epoch 2000/10000, Loss: 0.3406
+Shape Square - Epoch 4000/10000, Loss: 0.2454
+Shape Square - Epoch 6000/10000, Loss: 0.3800
+Shape Square - Epoch 8000/10000, Loss: 0.3383
+Finished Task 2 training for Square.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_1_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Training for Shape: Dinohead ---
+Dataset shape: torch.Size([10240, 2])
+Starting Task 2 training for Dinohead: 10000 epochs.
+Shape Dinohead - Epoch 0/10000, Loss: 0.9479
+Shape Dinohead - Epoch 2000/10000, Loss: 0.3768
+Shape Dinohead - Epoch 4000/10000, Loss: 0.3486
+Shape Dinohead - Epoch 6000/10000, Loss: 0.3350
+Shape Dinohead - Epoch 8000/10000, Loss: 0.2483
+Finished Task 2 training for Dinohead.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_1_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Finished All Shapes for Mandatory Task 2.
+--------------------------------------------------
+
+Starting Advanced Part: Conditional Generation for 'Stars' Dataset
+Loaded stars\_data.npy: torch.Size([1024, 1024, 2])
+ConditionalMLP initialized with input dim for main MLP: 194
+Starting Advanced Part training: 20000 epochs, 16 stars per meta-batch.
+Advanced Epoch 0/20000, Loss: 1.0074
+Advanced Epoch 1000/20000, Loss: 0.2913
+Advanced Epoch 2000/20000, Loss: 0.2771
+Advanced Epoch 3000/20000, Loss: 0.2787
+Advanced Epoch 4000/20000, Loss: 0.2863
+Advanced Epoch 5000/20000, Loss: 0.2760
+Advanced Epoch 6000/20000, Loss: 0.2803
+Advanced Epoch 7000/20000, Loss: 0.2782
+Advanced Epoch 8000/20000, Loss: 0.2722
+Advanced Epoch 9000/20000, Loss: 0.2796
+Advanced Epoch 10000/20000, Loss: 0.2707
+Advanced Epoch 11000/20000, Loss: 0.2741
+Advanced Epoch 12000/20000, Loss: 0.2737
+Advanced Epoch 13000/20000, Loss: 0.2677
+Advanced Epoch 14000/20000, Loss: 0.2708
+Advanced Epoch 15000/20000, Loss: 0.2679
+Advanced Epoch 16000/20000, Loss: 0.2642
+Advanced Epoch 17000/20000, Loss: 0.2732
+Advanced Epoch 18000/20000, Loss: 0.2625
+Advanced Epoch 19000/20000, Loss: 0.2744
+Finished training for Advanced Part.
+Generating samples for Advanced Part{\ldots}
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_1_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Full Project IV script finished.
+--------------------------------------------------
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
