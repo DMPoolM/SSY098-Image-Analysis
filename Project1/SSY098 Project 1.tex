@@ -1,0 +1,1307 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{SSY098 Project 1}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 1. Imports}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k+kn}{import} \PY{n+nn}{torch}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{nn} \PY{k}{as} \PY{n+nn}{nn}
+\PY{k+kn}{import} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{optim} \PY{k}{as} \PY{n+nn}{optim}
+\PY{k+kn}{from} \PY{n+nn}{torchvision} \PY{k+kn}{import} \PY{n}{datasets}\PY{p}{,} \PY{n}{transforms}\PY{p}{,} \PY{n}{models}
+\PY{k+kn}{from} \PY{n+nn}{torch}\PY{n+nn}{.}\PY{n+nn}{utils}\PY{n+nn}{.}\PY{n+nn}{data} \PY{k+kn}{import} \PY{n}{DataLoader}\PY{p}{,} \PY{n}{SubsetRandomSampler}\PY{p}{,} \PY{n}{Subset}\PY{p}{,} \PY{n}{random\PYZus{}split}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{confusion\PYZus{}matrix}\PY{p}{,} \PY{n}{accuracy\PYZus{}score}
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{k+kn}{import} \PY{n+nn}{time}
+\PY{k+kn}{import} \PY{n+nn}{copy}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 2. Setup and Configuration}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Device configuration}
+\PY{n}{device} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{device}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cuda}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{is\PYZus{}available}\PY{p}{(}\PY{p}{)} \PY{k}{else} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cpu}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Using device: }\PY{l+s+si}{\PYZob{}}\PY{n}{device}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Paths (UPDATE THESE)}
+\PY{n}{TRAIN\PYZus{}DATA\PYZus{}PATH} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SSY098/data/train}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{TEST\PYZus{}DATA\PYZus{}PATH} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SSY098/data/test}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{OOD\PYZus{}DATA\PYZus{}PATH} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SSY098/id\PYZus{}ood\PYZus{}samples}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} Hyperparameters for initial model}
+\PY{n}{NUM\PYZus{}EPOCHS\PYZus{}INITIAL} \PY{o}{=} \PY{l+m+mi}{20}
+\PY{n}{LEARNING\PYZus{}RATE\PYZus{}INITIAL} \PY{o}{=} \PY{l+m+mf}{0.001}
+\PY{n}{BATCH\PYZus{}SIZE} \PY{o}{=} \PY{l+m+mi}{128}
+
+\PY{c+c1}{\PYZsh{} Hyperparameters for improved model (can be tuned)}
+\PY{n}{NUM\PYZus{}EPOCHS\PYZus{}IMPROVED} \PY{o}{=} \PY{l+m+mi}{30}
+\PY{n}{LEARNING\PYZus{}RATE\PYZus{}IMPROVED} \PY{o}{=} \PY{l+m+mf}{0.001}
+
+\PY{c+c1}{\PYZsh{} Dataset properties}
+\PY{n}{NUM\PYZus{}CLASSES} \PY{o}{=} \PY{l+m+mi}{8}
+\PY{n}{IMG\PYZus{}SIZE} \PY{o}{=} \PY{l+m+mi}{56}
+
+\PY{c+c1}{\PYZsh{} For reproducibility}
+\PY{n}{torch}\PY{o}{.}\PY{n}{manual\PYZus{}seed}\PY{p}{(}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{k}{if} \PY{n}{torch}\PY{o}{.}\PY{n}{cuda}\PY{o}{.}\PY{n}{is\PYZus{}available}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{torch}\PY{o}{.}\PY{n}{backends}\PY{o}{.}\PY{n}{cudnn}\PY{o}{.}\PY{n}{deterministic} \PY{o}{=} \PY{k+kc}{True}
+    \PY{n}{torch}\PY{o}{.}\PY{n}{backends}\PY{o}{.}\PY{n}{cudnn}\PY{o}{.}\PY{n}{benchmark} \PY{o}{=} \PY{k+kc}{False}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 3. Data Loading and Preprocessing}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{mean} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.485}\PY{p}{,} \PY{l+m+mf}{0.456}\PY{p}{,} \PY{l+m+mf}{0.406}\PY{p}{]}
+\PY{n}{std} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{0.229}\PY{p}{,} \PY{l+m+mf}{0.224}\PY{p}{,} \PY{l+m+mf}{0.225}\PY{p}{]}
+
+\PY{n}{initial\PYZus{}transforms} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{(}\PY{p}{[}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Resize}\PY{p}{(}\PY{p}{(}\PY{n}{IMG\PYZus{}SIZE}\PY{p}{,} \PY{n}{IMG\PYZus{}SIZE}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Normalize}\PY{p}{(}\PY{n}{mean}\PY{o}{=}\PY{n}{mean}\PY{p}{,} \PY{n}{std}\PY{o}{=}\PY{n}{std}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{train\PYZus{}dataset\PYZus{}full} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{test\PYZus{}dataset} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{train\PYZus{}dataset} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{val\PYZus{}dataset} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{train\PYZus{}loader} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{val\PYZus{}loader} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{test\PYZus{}loader} \PY{o}{=} \PY{k+kc}{None}
+
+\PY{k}{try}\PY{p}{:}
+    \PY{n}{train\PYZus{}dataset\PYZus{}full} \PY{o}{=} \PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{TRAIN\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{initial\PYZus{}transforms}\PY{p}{)}
+    \PY{n}{test\PYZus{}dataset} \PY{o}{=} \PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{TEST\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{initial\PYZus{}transforms}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full training dataset size: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Test dataset size: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{test\PYZus{}dataset}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Classes: }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Split training data into training and validation for early stopping (e.g., 80/20 split)}
+    \PY{n}{VAL\PYZus{}SPLIT} \PY{o}{=} \PY{l+m+mf}{0.2}
+    \PY{n}{train\PYZus{}size} \PY{o}{=} \PY{n+nb}{int}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{VAL\PYZus{}SPLIT}\PY{p}{)} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{)}\PY{p}{)}
+    \PY{n}{val\PYZus{}size} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{train\PYZus{}size}
+    \PY{n}{train\PYZus{}dataset}\PY{p}{,} \PY{n}{val\PYZus{}dataset} \PY{o}{=} \PY{n}{random\PYZus{}split}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{,} \PY{p}{[}\PY{n}{train\PYZus{}size}\PY{p}{,} \PY{n}{val\PYZus{}size}\PY{p}{]}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Training subset size: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}dataset}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Validation subset size: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{val\PYZus{}dataset}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{train\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{train\PYZus{}dataset}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{val\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{val\PYZus{}dataset}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{test\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{test\PYZus{}dataset}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{k}{except} \PY{n+ne}{FileNotFoundError}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ERROR: Dataset directory not found. Please check TRAIN\PYZus{}DATA\PYZus{}PATH and TEST\PYZus{}DATA\PYZus{}PATH.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{An error occurred during data loading: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 4. Helper Functions}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{def} \PY{n+nf}{train\PYZus{}model}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{train\PYZus{}loader}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer}\PY{p}{,} \PY{n}{num\PYZus{}epochs}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{o}{=}\PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{n}{train\PYZus{}losses} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{val\PYZus{}losses} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{train\PYZus{}accuracies} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{val\PYZus{}accuracies} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{n}{best\PYZus{}val\PYZus{}loss} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{epochs\PYZus{}no\PYZus{}improve} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{best\PYZus{}model\PYZus{}wts} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{state\PYZus{}dict}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}epochs}\PY{p}{)}\PY{p}{:}
+        \PY{n}{model}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{p}{)}
+        \PY{n}{running\PYZus{}loss} \PY{o}{=} \PY{l+m+mf}{0.0}
+        \PY{n}{correct\PYZus{}train} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{total\PYZus{}train} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{start\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+
+        \PY{k}{for} \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o+ow}{in} \PY{n}{train\PYZus{}loader}\PY{p}{:}
+            \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o}{=} \PY{n}{inputs}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{labels}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+            \PY{n}{optimizer}\PY{o}{.}\PY{n}{zero\PYZus{}grad}\PY{p}{(}\PY{p}{)}
+            \PY{n}{outputs} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{inputs}\PY{p}{)}
+            \PY{n}{loss} \PY{o}{=} \PY{n}{criterion}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{labels}\PY{p}{)}
+            \PY{n}{loss}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{p}{)}
+            \PY{n}{optimizer}\PY{o}{.}\PY{n}{step}\PY{p}{(}\PY{p}{)}
+            \PY{n}{running\PYZus{}loss} \PY{o}{+}\PY{o}{=} \PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{inputs}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{predicted} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{outputs}\PY{o}{.}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{total\PYZus{}train} \PY{o}{+}\PY{o}{=} \PY{n}{labels}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{correct\PYZus{}train} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{predicted} \PY{o}{==} \PY{n}{labels}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{epoch\PYZus{}loss} \PY{o}{=} \PY{n}{running\PYZus{}loss} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}loader}\PY{o}{.}\PY{n}{dataset}\PY{p}{)}
+        \PY{n}{epoch\PYZus{}acc} \PY{o}{=} \PY{n}{correct\PYZus{}train} \PY{o}{/} \PY{n}{total\PYZus{}train}
+        \PY{n}{train\PYZus{}losses}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{epoch\PYZus{}loss}\PY{p}{)}
+        \PY{n}{train\PYZus{}accuracies}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{epoch\PYZus{}acc}\PY{p}{)}
+
+        \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+        \PY{n}{running\PYZus{}val\PYZus{}loss} \PY{o}{=} \PY{l+m+mf}{0.0}
+        \PY{n}{correct\PYZus{}val} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{n}{total\PYZus{}val} \PY{o}{=} \PY{l+m+mi}{0}
+        \PY{k}{with} \PY{n}{torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{for} \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o+ow}{in} \PY{n}{val\PYZus{}loader}\PY{p}{:}
+                \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o}{=} \PY{n}{inputs}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{labels}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+                \PY{n}{outputs} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{inputs}\PY{p}{)}
+                \PY{n}{loss} \PY{o}{=} \PY{n}{criterion}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{labels}\PY{p}{)}
+                \PY{n}{running\PYZus{}val\PYZus{}loss} \PY{o}{+}\PY{o}{=} \PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{inputs}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+                \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{predicted} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{outputs}\PY{o}{.}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+                \PY{n}{total\PYZus{}val} \PY{o}{+}\PY{o}{=} \PY{n}{labels}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+                \PY{n}{correct\PYZus{}val} \PY{o}{+}\PY{o}{=} \PY{p}{(}\PY{n}{predicted} \PY{o}{==} \PY{n}{labels}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)}
+
+        \PY{n}{epoch\PYZus{}val\PYZus{}loss} \PY{o}{=} \PY{n}{running\PYZus{}val\PYZus{}loss} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{val\PYZus{}loader}\PY{o}{.}\PY{n}{dataset}\PY{p}{)}
+        \PY{n}{epoch\PYZus{}val\PYZus{}acc} \PY{o}{=} \PY{n}{correct\PYZus{}val} \PY{o}{/} \PY{n}{total\PYZus{}val}
+        \PY{n}{val\PYZus{}losses}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{epoch\PYZus{}val\PYZus{}loss}\PY{p}{)}
+        \PY{n}{val\PYZus{}accuracies}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{epoch\PYZus{}val\PYZus{}acc}\PY{p}{)}
+        
+        \PY{n}{epoch\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{start\PYZus{}time}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Epoch }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{/}\PY{l+s+si}{\PYZob{}}\PY{n}{num\PYZus{}epochs}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ | }\PY{l+s+s2}{\PYZdq{}}
+              \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch\PYZus{}time}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{s | }\PY{l+s+s2}{\PYZdq{}}
+              \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Train Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch\PYZus{}loss}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ | Train Acc: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch\PYZus{}acc}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ | }\PY{l+s+s2}{\PYZdq{}}
+              \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Val Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch\PYZus{}val\PYZus{}loss}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ | Val Acc: }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch\PYZus{}val\PYZus{}acc}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+        \PY{k}{if} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{p}{:}
+            \PY{k}{if} \PY{n}{epoch\PYZus{}val\PYZus{}loss} \PY{o}{\PYZlt{}} \PY{n}{best\PYZus{}val\PYZus{}loss}\PY{p}{:}
+                \PY{n}{best\PYZus{}val\PYZus{}loss} \PY{o}{=} \PY{n}{epoch\PYZus{}val\PYZus{}loss}
+                \PY{n}{epochs\PYZus{}no\PYZus{}improve} \PY{o}{=} \PY{l+m+mi}{0}
+                \PY{n}{best\PYZus{}model\PYZus{}wts} \PY{o}{=} \PY{n}{copy}\PY{o}{.}\PY{n}{deepcopy}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{state\PYZus{}dict}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            \PY{k}{else}\PY{p}{:}
+                \PY{n}{epochs\PYZus{}no\PYZus{}improve} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+            
+            \PY{k}{if} \PY{n}{epochs\PYZus{}no\PYZus{}improve} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Early stopping triggered after }\PY{l+s+si}{\PYZob{}}\PY{n}{epoch}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ epochs.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+                \PY{n}{model}\PY{o}{.}\PY{n}{load\PYZus{}state\PYZus{}dict}\PY{p}{(}\PY{n}{best\PYZus{}model\PYZus{}wts}\PY{p}{)}
+                \PY{k}{break}
+                
+    \PY{k}{if} \PY{n}{early\PYZus{}stopping\PYZus{}patience} \PY{o+ow}{and} \PY{n}{best\PYZus{}val\PYZus{}loss} \PY{o}{!=} \PY{n+nb}{float}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{inf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+        \PY{n}{model}\PY{o}{.}\PY{n}{load\PYZus{}state\PYZus{}dict}\PY{p}{(}\PY{n}{best\PYZus{}model\PYZus{}wts}\PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{model}\PY{p}{,} \PY{n}{train\PYZus{}losses}\PY{p}{,} \PY{n}{val\PYZus{}losses}\PY{p}{,} \PY{n}{train\PYZus{}accuracies}\PY{p}{,} \PY{n}{val\PYZus{}accuracies}
+
+\PY{k}{def} \PY{n+nf}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{test\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}\PY{p}{:}
+    \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{n}{running\PYZus{}loss} \PY{o}{=} \PY{l+m+mf}{0.0}
+    \PY{n}{all\PYZus{}preds} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{n}{all\PYZus{}labels} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{with} \PY{n}{torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o+ow}{in} \PY{n}{test\PYZus{}loader}\PY{p}{:}
+            \PY{n}{inputs}\PY{p}{,} \PY{n}{labels} \PY{o}{=} \PY{n}{inputs}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}\PY{p}{,} \PY{n}{labels}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+            \PY{n}{outputs} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{inputs}\PY{p}{)}
+            \PY{n}{loss} \PY{o}{=} \PY{n}{criterion}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{labels}\PY{p}{)}
+            \PY{n}{running\PYZus{}loss} \PY{o}{+}\PY{o}{=} \PY{n}{loss}\PY{o}{.}\PY{n}{item}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{n}{inputs}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{predicted} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{outputs}\PY{o}{.}\PY{n}{data}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{all\PYZus{}preds}\PY{o}{.}\PY{n}{extend}\PY{p}{(}\PY{n}{predicted}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            \PY{n}{all\PYZus{}labels}\PY{o}{.}\PY{n}{extend}\PY{p}{(}\PY{n}{labels}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+            
+    \PY{n}{test\PYZus{}loss} \PY{o}{=} \PY{n}{running\PYZus{}loss} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{test\PYZus{}loader}\PY{o}{.}\PY{n}{dataset}\PY{p}{)}
+    \PY{n}{test\PYZus{}acc} \PY{o}{=} \PY{n}{accuracy\PYZus{}score}\PY{p}{(}\PY{n}{all\PYZus{}labels}\PY{p}{,} \PY{n}{all\PYZus{}preds}\PY{p}{)}
+    \PY{n}{cm} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{all\PYZus{}labels}\PY{p}{,} \PY{n}{all\PYZus{}preds}\PY{p}{)}
+    \PY{k}{return} \PY{n}{test\PYZus{}loss}\PY{p}{,} \PY{n}{test\PYZus{}acc}\PY{p}{,} \PY{n}{cm}\PY{p}{,} \PY{n}{all\PYZus{}labels}\PY{p}{,} \PY{n}{all\PYZus{}preds}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{train\PYZus{}losses}\PY{p}{,} \PY{n}{val\PYZus{}losses}\PY{p}{,} \PY{n}{train\PYZus{}accuracies}\PY{p}{,} \PY{n}{val\PYZus{}accuracies}\PY{p}{,} \PY{n}{title\PYZus{}prefix}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{train\PYZus{}losses}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Training Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{val\PYZus{}losses}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Validation Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epochs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{title\PYZus{}prefix}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Loss vs. Epochs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{train\PYZus{}accuracies}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Training Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{val\PYZus{}accuracies}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Validation Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Epochs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{title\PYZus{}prefix}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Accuracy vs. Epochs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{title\PYZus{}prefix}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{ Training History}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{n}{rect}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mf}{0.96}\PY{p}{]}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm}\PY{p}{,} \PY{n}{class\PYZus{}names}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Confusion Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{cm}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{d}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{xticklabels}\PY{o}{=}\PY{n}{class\PYZus{}names}\PY{p}{,} \PY{n}{yticklabels}\PY{o}{=}\PY{n}{class\PYZus{}names}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted Label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{True Label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{title}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 5. Part 1: Mandatory Part \PYZhy{} Initial CNN Model}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Design a simple CNN, train it, and evaluate. Target: \PYZti{}70\PYZpc{} accuracy in 15\PYZhy{}20 epochs.}
+
+\PY{k}{class} \PY{n+nc}{InitialCNN}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{n}{InitialCNN}\PY{p}{,} \PY{n+nb+bp}{self}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{16}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{32}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv3} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{,} \PY{l+m+mi}{64}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu3} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool3} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{64}\PY{p}{,} \PY{l+m+mi}{512}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu4} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dropout} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{p}{)}
+
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool1}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu1}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv1}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool2}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu2}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv2}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{pool3}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu3}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv3}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{64}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{relu4}\PY{p}{(}\PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc1}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{dropout}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc2}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{k}{return} \PY{n}{x}
+
+\PY{n}{initial\PYZus{}model} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{test\PYZus{}acc\PYZus{}initial} \PY{o}{=} \PY{l+m+mf}{0.0} \PY{c+c1}{\PYZsh{} Default value}
+\PY{k}{if} \PY{n}{train\PYZus{}loader} \PY{o+ow}{and} \PY{n}{val\PYZus{}loader} \PY{o+ow}{and} \PY{n}{test\PYZus{}loader}\PY{p}{:} \PY{c+c1}{\PYZsh{} Check if data loaded successfully}
+    \PY{n}{initial\PYZus{}model} \PY{o}{=} \PY{n}{InitialCNN}\PY{p}{(}\PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{criterion} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}initial} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{initial\PYZus{}model}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE\PYZus{}INITIAL}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Training Initial Model \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{initial\PYZus{}model}\PY{p}{,} \PY{n}{train\PYZus{}l}\PY{p}{,} \PY{n}{val\PYZus{}l}\PY{p}{,} \PY{n}{train\PYZus{}a}\PY{p}{,} \PY{n}{val\PYZus{}a} \PY{o}{=} \PY{n}{train\PYZus{}model}\PY{p}{(}
+        \PY{n}{initial\PYZus{}model}\PY{p}{,} \PY{n}{train\PYZus{}loader}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer\PYZus{}initial}\PY{p}{,} \PY{n}{NUM\PYZus{}EPOCHS\PYZus{}INITIAL}\PY{p}{,} \PY{n}{device}
+    \PY{p}{)}
+    \PY{n}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{train\PYZus{}l}\PY{p}{,} \PY{n}{val\PYZus{}l}\PY{p}{,} \PY{n}{train\PYZus{}a}\PY{p}{,} \PY{n}{val\PYZus{}a}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Evaluating Initial Model on Test Set \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{test\PYZus{}loss\PYZus{}initial}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}initial}\PY{p}{,} \PY{n}{cm\PYZus{}initial}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{initial\PYZus{}model}\PY{p}{,} \PY{n}{test\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Model \PYZhy{} Test Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}loss\PYZus{}initial}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Test Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}initial}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}initial}\PY{p}{,} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Model Confusion Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+         \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}initial}\PY{p}{,} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Model Confusion Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping initial model training due to data loading issues.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 6. Part 1: Mandatory Part \PYZhy{} Model Improvement}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Implement at least three improvement methods. Target: \PYZgt{}= 81\PYZpc{} accuracy.}
+\PY{c+c1}{\PYZsh{} Chosen Improvements:}
+\PY{c+c1}{\PYZsh{} 1. Data Augmentation: To increase dataset diversity and reduce overfitting.}
+\PY{c+c1}{\PYZsh{} 2. Batch Normalization: To stabilize learning and potentially speed up convergence.}
+\PY{c+c1}{\PYZsh{} 3. Early Stopping: To prevent overfitting by stopping when validation performance degrades.}
+
+\PY{c+c1}{\PYZsh{} 6.1. Data Augmentation}
+\PY{n}{improved\PYZus{}train\PYZus{}transforms} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{(}\PY{p}{[}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Resize}\PY{p}{(}\PY{p}{(}\PY{n}{IMG\PYZus{}SIZE}\PY{p}{,} \PY{n}{IMG\PYZus{}SIZE}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{RandomHorizontalFlip}\PY{p}{(}\PY{n}{p}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{RandomRotation}\PY{p}{(}\PY{n}{degrees}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Normalize}\PY{p}{(}\PY{n}{mean}\PY{o}{=}\PY{n}{mean}\PY{p}{,} \PY{n}{std}\PY{o}{=}\PY{n}{std}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{improved\PYZus{}val\PYZus{}test\PYZus{}transforms} \PY{o}{=} \PY{n}{transforms}\PY{o}{.}\PY{n}{Compose}\PY{p}{(}\PY{p}{[}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Resize}\PY{p}{(}\PY{p}{(}\PY{n}{IMG\PYZus{}SIZE}\PY{p}{,} \PY{n}{IMG\PYZus{}SIZE}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{transforms}\PY{o}{.}\PY{n}{Normalize}\PY{p}{(}\PY{n}{mean}\PY{o}{=}\PY{n}{mean}\PY{p}{,} \PY{n}{std}\PY{o}{=}\PY{n}{std}\PY{p}{)}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{train\PYZus{}loader\PYZus{}aug} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{val\PYZus{}loader\PYZus{}improved} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug} \PY{o}{=} \PY{k+kc}{None}
+
+\PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+    \PY{n}{train\PYZus{}dataset\PYZus{}full\PYZus{}aug\PYZus{}source} \PY{o}{=} \PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{TRAIN\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{improved\PYZus{}train\PYZus{}transforms}\PY{p}{)}
+    \PY{n}{val\PYZus{}dataset\PYZus{}no\PYZus{}aug\PYZus{}for\PYZus{}improved} \PY{o}{=} \PY{n}{Subset}\PY{p}{(}\PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{TRAIN\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{improved\PYZus{}val\PYZus{}test\PYZus{}transforms}\PY{p}{)}\PY{p}{,} \PY{n}{val\PYZus{}dataset}\PY{o}{.}\PY{n}{indices}\PY{p}{)}
+    
+    \PY{n}{train\PYZus{}dataset\PYZus{}aug} \PY{o}{=} \PY{n}{Subset}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}full\PYZus{}aug\PYZus{}source}\PY{p}{,} \PY{n}{train\PYZus{}dataset}\PY{o}{.}\PY{n}{indices}\PY{p}{)}
+    
+    \PY{n}{train\PYZus{}loader\PYZus{}aug} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{train\PYZus{}dataset\PYZus{}aug}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{val\PYZus{}loader\PYZus{}improved} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{val\PYZus{}dataset\PYZus{}no\PYZus{}aug\PYZus{}for\PYZus{}improved}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{TEST\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{improved\PYZus{}val\PYZus{}test\PYZus{}transforms}\PY{p}{)}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping augmented DataLoader creation due to base dataset loading issues.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 6.2. Improved CNN Model Architecture (e.g., with Batch Normalization)}
+\PY{k}{class} \PY{n+nc}{ImprovedCNN}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{n}{ImprovedCNN}\PY{p}{,} \PY{n+nb+bp}{self}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{32}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{BatchNorm2d}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{,} \PY{l+m+mi}{64}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{BatchNorm2d}\PY{p}{(}\PY{l+m+mi}{64}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block3} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{64}\PY{p}{,} \PY{l+m+mi}{128}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{BatchNorm2d}\PY{p}{(}\PY{l+m+mi}{128}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc\PYZus{}block} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{128}\PY{p}{,} \PY{l+m+mi}{512}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{BatchNorm1d}\PY{p}{(}\PY{l+m+mi}{512}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{p}{)}
+        \PY{p}{)}
+
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block1}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block2}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block3}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{128}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc\PYZus{}block}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{k}{return} \PY{n}{x}
+
+\PY{c+c1}{\PYZsh{} 6.3. Training the Improved Model (with Early Stopping)}
+\PY{n}{improved\PYZus{}model} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{test\PYZus{}acc\PYZus{}improved} \PY{o}{=} \PY{l+m+mf}{0.0} \PY{c+c1}{\PYZsh{} Default value}
+\PY{k}{if} \PY{n}{train\PYZus{}loader\PYZus{}aug} \PY{o+ow}{and} \PY{n}{val\PYZus{}loader\PYZus{}improved} \PY{o+ow}{and} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{:} \PY{c+c1}{\PYZsh{} Check if augmented data loaders are ready}
+    \PY{n}{improved\PYZus{}model} \PY{o}{=} \PY{n}{ImprovedCNN}\PY{p}{(}\PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}improved} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{improved\PYZus{}model}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE\PYZus{}IMPROVED}\PY{p}{)}
+    \PY{n}{criterion} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} Re\PYZhy{}define or ensure it\PYZsq{}s in scope}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Training Improved Model \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{improved\PYZus{}model}\PY{p}{,} \PY{n}{train\PYZus{}l\PYZus{}imp}\PY{p}{,} \PY{n}{val\PYZus{}l\PYZus{}imp}\PY{p}{,} \PY{n}{train\PYZus{}a\PYZus{}imp}\PY{p}{,} \PY{n}{val\PYZus{}a\PYZus{}imp} \PY{o}{=} \PY{n}{train\PYZus{}model}\PY{p}{(}
+        \PY{n}{improved\PYZus{}model}\PY{p}{,} \PY{n}{train\PYZus{}loader\PYZus{}aug}\PY{p}{,} \PY{n}{val\PYZus{}loader\PYZus{}improved}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer\PYZus{}improved}\PY{p}{,} 
+        \PY{n}{NUM\PYZus{}EPOCHS\PYZus{}IMPROVED}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{o}{=}\PY{l+m+mi}{5}
+    \PY{p}{)}
+    \PY{n}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{train\PYZus{}l\PYZus{}imp}\PY{p}{,} \PY{n}{val\PYZus{}l\PYZus{}imp}\PY{p}{,} \PY{n}{train\PYZus{}a\PYZus{}imp}\PY{p}{,} \PY{n}{val\PYZus{}a\PYZus{}imp}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Improved Model}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Evaluating Improved Model on Test Set \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{test\PYZus{}loss\PYZus{}improved}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}improved}\PY{p}{,} \PY{n}{cm\PYZus{}improved}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{improved\PYZus{}model}\PY{p}{,} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Improved Model \PYZhy{} Test Loss: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}loss\PYZus{}improved}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, Test Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}improved}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}improved}\PY{p}{,} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Improved Model Confusion Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}improved}\PY{p}{,} \PY{p}{[}\PY{n+nb}{str}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Improved Model Confusion Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping improved model training due to data loading issues.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 7. Part 1: Mandatory Part \PYZhy{} Ablation Study}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{ablation\PYZus{}results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} Ablation 1: Final Model without Data Augmentation}
+\PY{c+c1}{\PYZsh{} Use improved\PYZus{}model architecture, but train with \PYZsq{}initial\PYZus{}transforms\PYZsq{} / \PYZsq{}train\PYZus{}loader\PYZsq{} (no augmentation) \PYZam{} \PYZsq{}val\PYZus{}loader\PYZsq{}}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Ablation Study: Model without Data Augmentation \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{train\PYZus{}loader} \PY{o+ow}{and} \PY{n}{val\PYZus{}loader} \PY{o+ow}{and} \PY{n}{test\PYZus{}loader}\PY{p}{:}
+    \PY{n}{model\PYZus{}no\PYZus{}aug} \PY{o}{=} \PY{n}{ImprovedCNN}\PY{p}{(}\PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}no\PYZus{}aug} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}aug}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE\PYZus{}IMPROVED}\PY{p}{)}
+    \PY{n}{criterion} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{model\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va} \PY{o}{=} \PY{n}{train\PYZus{}model}\PY{p}{(}
+        \PY{n}{model\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{train\PYZus{}loader}\PY{p}{,} \PY{n}{val\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer\PYZus{}no\PYZus{}aug}\PY{p}{,}
+        \PY{n}{NUM\PYZus{}EPOCHS\PYZus{}IMPROVED}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{o}{=}\PY{l+m+mi}{5}
+    \PY{p}{)}
+    \PY{n}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ablation Model (No Data Augmentation)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{cm\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{test\PYZus{}loader}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}
+    \PY{n}{ablation\PYZus{}results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Without Data Augmentation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{cm\PYZus{}no\PYZus{}aug}\PY{p}{\PYZcb{}}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy without Data Augmentation: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}aug}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CM \PYZhy{} No Data Augmentation}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping Ablation: No Data Augmentation (original loaders missing).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Ablation 2: Final Model without Batch Normalization}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Ablation Study: Model without Batch Normalization \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{class} \PY{n+nc}{ImprovedCNN\PYZus{}NoBatchNorm}\PY{p}{(}\PY{n}{nn}\PY{o}{.}\PY{n}{Module}\PY{p}{)}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb}{super}\PY{p}{(}\PY{n}{ImprovedCNN\PYZus{}NoBatchNorm}\PY{p}{,} \PY{n+nb+bp}{self}\PY{p}{)}\PY{o}{.}\PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block1} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{32}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block2} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{32}\PY{p}{,} \PY{l+m+mi}{64}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block3} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Conv2d}\PY{p}{(}\PY{l+m+mi}{64}\PY{p}{,} \PY{l+m+mi}{128}\PY{p}{,} \PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{padding}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{MaxPool2d}\PY{p}{(}\PY{n}{kernel\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{stride}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc\PYZus{}block} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{Sequential}\PY{p}{(}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{128}\PY{p}{,} \PY{l+m+mi}{512}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{ReLU}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+            \PY{n}{nn}\PY{o}{.}\PY{n}{Dropout}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,} \PY{n}{nn}\PY{o}{.}\PY{n}{Linear}\PY{p}{(}\PY{l+m+mi}{512}\PY{p}{,} \PY{n}{num\PYZus{}classes}\PY{p}{)}
+        \PY{p}{)}
+    \PY{k}{def} \PY{n+nf}{forward}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{x}\PY{p}{)}\PY{p}{:}
+        \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block1}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{;} \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block2}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{;} \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{conv\PYZus{}block3}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{view}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{7} \PY{o}{*} \PY{l+m+mi}{128}\PY{p}{)}\PY{p}{;} \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{fc\PYZus{}block}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+        \PY{k}{return} \PY{n}{x}
+
+\PY{k}{if} \PY{n}{train\PYZus{}loader\PYZus{}aug} \PY{o+ow}{and} \PY{n}{val\PYZus{}loader\PYZus{}improved} \PY{o+ow}{and} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{:}
+    \PY{n}{model\PYZus{}no\PYZus{}bn} \PY{o}{=} \PY{n}{ImprovedCNN\PYZus{}NoBatchNorm}\PY{p}{(}\PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}no\PYZus{}bn} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}bn}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE\PYZus{}IMPROVED}\PY{p}{)}
+    \PY{n}{criterion} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{model\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va} \PY{o}{=} \PY{n}{train\PYZus{}model}\PY{p}{(}
+        \PY{n}{model\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{train\PYZus{}loader\PYZus{}aug}\PY{p}{,} \PY{n}{val\PYZus{}loader\PYZus{}improved}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer\PYZus{}no\PYZus{}bn}\PY{p}{,}
+        \PY{n}{NUM\PYZus{}EPOCHS\PYZus{}IMPROVED}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{o}{=}\PY{l+m+mi}{5}
+    \PY{p}{)}
+    \PY{n}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ablation Model (No Batch Norm)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{cm\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}
+    \PY{n}{ablation\PYZus{}results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Without Batch Norm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{cm\PYZus{}no\PYZus{}bn}\PY{p}{\PYZcb{}}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy without Batch Normalization: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}bn}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}no\PYZus{}bn}\PY{p}{,} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CM \PYZhy{} No Batch Norm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping Ablation: No Batch Norm (augmented loaders missing).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Ablation 3: Final Model without Early Stopping}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Ablation Study: Model without Early Stopping \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{train\PYZus{}loader\PYZus{}aug} \PY{o+ow}{and} \PY{n}{val\PYZus{}loader\PYZus{}improved} \PY{o+ow}{and} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{:}
+    \PY{n}{model\PYZus{}no\PYZus{}es} \PY{o}{=} \PY{n}{ImprovedCNN}\PY{p}{(}\PY{n}{num\PYZus{}classes}\PY{o}{=}\PY{n}{NUM\PYZus{}CLASSES}\PY{p}{)}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+    \PY{n}{optimizer\PYZus{}no\PYZus{}es} \PY{o}{=} \PY{n}{optim}\PY{o}{.}\PY{n}{Adam}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}es}\PY{o}{.}\PY{n}{parameters}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{lr}\PY{o}{=}\PY{n}{LEARNING\PYZus{}RATE\PYZus{}IMPROVED}\PY{p}{)}
+    \PY{n}{criterion} \PY{o}{=} \PY{n}{nn}\PY{o}{.}\PY{n}{CrossEntropyLoss}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{model\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va} \PY{o}{=} \PY{n}{train\PYZus{}model}\PY{p}{(}
+        \PY{n}{model\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{train\PYZus{}loader\PYZus{}aug}\PY{p}{,} \PY{n}{val\PYZus{}loader\PYZus{}improved}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{optimizer\PYZus{}no\PYZus{}es}\PY{p}{,}
+        \PY{n}{NUM\PYZus{}EPOCHS\PYZus{}IMPROVED}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{early\PYZus{}stopping\PYZus{}patience}\PY{o}{=}\PY{k+kc}{None} \PY{c+c1}{\PYZsh{} No early stopping}
+    \PY{p}{)}
+    \PY{n}{plot\PYZus{}training\PYZus{}history}\PY{p}{(}\PY{n}{tl}\PY{p}{,} \PY{n}{vl}\PY{p}{,} \PY{n}{ta}\PY{p}{,} \PY{n}{va}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ablation Model (No Early Stopping)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{cm\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{model\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug}\PY{p}{,} \PY{n}{criterion}\PY{p}{,} \PY{n}{device}\PY{p}{)}
+    \PY{n}{ablation\PYZus{}results}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Without Early Stopping}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{accuracy}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{cm\PYZus{}no\PYZus{}es}\PY{p}{\PYZcb{}}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy without Early Stopping (fixed epochs): }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}no\PYZus{}es}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{p}{:}
+        \PY{n}{plot\PYZus{}confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{cm\PYZus{}no\PYZus{}es}\PY{p}{,} \PY{n}{train\PYZus{}dataset\PYZus{}full}\PY{o}{.}\PY{n}{classes}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CM \PYZhy{} No Early Stopping}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping Ablation: No Early Stopping (augmented loaders missing).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Ablation Study Results \PYZam{} Discussion}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Ablation Study Summary \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fully Improved Model Test Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{test\PYZus{}acc\PYZus{}improved}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{result} \PY{o+ow}{in} \PY{n}{ablation\PYZus{}results}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ Test Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{result}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{accuracy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{+w}{ }\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{N/A}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{}\PYZsh{} 8. Part 2: Advanced Part \PYZhy{} Out\PYZhy{}of\PYZhy{}Distribution (OOD) Detection}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{ood\PYZus{}loader} \PY{o}{=} \PY{k+kc}{None}
+\PY{k}{if} \PY{n}{improved\PYZus{}model}\PY{p}{:} \PY{c+c1}{\PYZsh{} Check if improved\PYZus{}model exists}
+    \PY{n}{improved\PYZus{}model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+    \PY{n}{id\PYZus{}loader} \PY{o}{=} \PY{n}{test\PYZus{}loader\PYZus{}no\PYZus{}aug} \PY{c+c1}{\PYZsh{} Using non\PYZhy{}augmented test loader for ID samples}
+
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{ood\PYZus{}dataset} \PY{o}{=} \PY{n}{datasets}\PY{o}{.}\PY{n}{ImageFolder}\PY{p}{(}\PY{n}{OOD\PYZus{}DATA\PYZus{}PATH}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{improved\PYZus{}val\PYZus{}test\PYZus{}transforms}\PY{p}{)}
+        \PY{n}{ood\PYZus{}loader} \PY{o}{=} \PY{n}{DataLoader}\PY{p}{(}\PY{n}{ood\PYZus{}dataset}\PY{p}{,} \PY{n}{batch\PYZus{}size}\PY{o}{=}\PY{n}{BATCH\PYZus{}SIZE}\PY{p}{,} \PY{n}{shuffle}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{num\PYZus{}workers}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{pin\PYZus{}memory}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OOD dataset size: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{ood\PYZus{}dataset}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{FileNotFoundError}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ERROR: OOD dataset directory not found at }\PY{l+s+si}{\PYZob{}}\PY{n}{OOD\PYZus{}DATA\PYZus{}PATH}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{. Skipping OOD detection.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Error loading OOD dataset: }\PY{l+s+si}{\PYZob{}}\PY{n}{e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{. Skipping OOD detection.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+    \PY{n}{activation\PYZus{}results} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{n}{hook\PYZus{}handle} \PY{o}{=} \PY{k+kc}{None}
+    \PY{k}{def} \PY{n+nf}{get\PYZus{}activation}\PY{p}{(}\PY{n}{name}\PY{p}{)}\PY{p}{:}
+        \PY{k}{def} \PY{n+nf}{hook}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n+nb}{input}\PY{p}{,} \PY{n}{output}\PY{p}{)}\PY{p}{:}
+            \PY{n}{activation\PYZus{}results}\PY{p}{[}\PY{n}{name}\PY{p}{]} \PY{o}{=} \PY{n}{output}\PY{o}{.}\PY{n}{detach}\PY{p}{(}\PY{p}{)}
+        \PY{k}{return} \PY{n}{hook}
+
+    \PY{k}{def} \PY{n+nf}{calculate\PYZus{}scores\PYZus{}msp}\PY{p}{(}\PY{n}{loader}\PY{p}{,} \PY{n}{model}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{id\PYZus{}type}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{} Max Softmax Probability}
+        \PY{n}{model}\PY{o}{.}\PY{n}{eval}\PY{p}{(}\PY{p}{)}
+        \PY{n}{scores} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Calculating MSP scores for }\PY{l+s+si}{\PYZob{}}\PY{n}{id\PYZus{}type}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ data...}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{with} \PY{n}{torch}\PY{o}{.}\PY{n}{no\PYZus{}grad}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+            \PY{k}{for} \PY{n}{inputs}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n}{loader}\PY{p}{:}
+                \PY{n}{inputs} \PY{o}{=} \PY{n}{inputs}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{device}\PY{p}{)}
+                \PY{n}{outputs} \PY{o}{=} \PY{n}{model}\PY{p}{(}\PY{n}{inputs}\PY{p}{)}
+                \PY{n}{softmax\PYZus{}probs} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{softmax}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+                \PY{n}{max\PYZus{}probs}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{torch}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{softmax\PYZus{}probs}\PY{p}{,} \PY{n}{dim}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+                \PY{n}{scores}\PY{o}{.}\PY{n}{extend}\PY{p}{(}\PY{n}{max\PYZus{}probs}\PY{o}{.}\PY{n}{cpu}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{scores}\PY{p}{)}
+
+    \PY{k}{if} \PY{n}{id\PYZus{}loader} \PY{o+ow}{and} \PY{n}{ood\PYZus{}loader} \PY{p}{:}
+        \PY{n}{id\PYZus{}scores\PYZus{}msp} \PY{o}{=} \PY{n}{calculate\PYZus{}scores\PYZus{}msp}\PY{p}{(}\PY{n}{id\PYZus{}loader}\PY{p}{,} \PY{n}{improved\PYZus{}model}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{id\PYZus{}type}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{ood\PYZus{}scores\PYZus{}msp} \PY{o}{=} \PY{n}{calculate\PYZus{}scores\PYZus{}msp}\PY{p}{(}\PY{n}{ood\PYZus{}loader}\PY{p}{,} \PY{n}{improved\PYZus{}model}\PY{p}{,} \PY{n}{device}\PY{p}{,} \PY{n}{id\PYZus{}type}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OOD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+        \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{id\PYZus{}scores\PYZus{}msp}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ID Scores (MSP)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{density}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{ood\PYZus{}scores\PYZus{}msp}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.7}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OOD Scores (MSP)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{density}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Max Softmax Probability}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Density}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Histogram of ID vs OOD Scores (MSP)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+        
+        \PY{k}{if} \PY{n}{hook\PYZus{}handle}\PY{p}{:} \PY{c+c1}{\PYZsh{} Remove hook if it was registered}
+            \PY{n}{hook\PYZus{}handle}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping OOD score calculation and plotting due to missing data loaders.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Improved model not available for OOD detection.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Script execution finished.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Using device: cuda
+Full training dataset size: 32000
+Test dataset size: 24000
+Classes: ['ART', 'BLA', 'EBO', 'LYT', 'NGB', 'NGS', 'PLM', 'PMO']
+Training subset size: 25600
+Validation subset size: 6400
+--- Training Initial Model ---
+Epoch 1/20 | Time: 98.96s | Train Loss: 1.4350 | Train Acc: 0.4555 | Val Loss:
+1.0900 | Val Acc: 0.5927
+Epoch 2/20 | Time: 21.68s | Train Loss: 1.0402 | Train Acc: 0.6160 | Val Loss:
+0.9335 | Val Acc: 0.6714
+Epoch 3/20 | Time: 21.52s | Train Loss: 0.9034 | Train Acc: 0.6693 | Val Loss:
+0.7958 | Val Acc: 0.7200
+Epoch 4/20 | Time: 20.94s | Train Loss: 0.7944 | Train Acc: 0.7129 | Val Loss:
+0.7631 | Val Acc: 0.7270
+Epoch 5/20 | Time: 21.80s | Train Loss: 0.7208 | Train Acc: 0.7434 | Val Loss:
+0.7155 | Val Acc: 0.7441
+Epoch 6/20 | Time: 21.36s | Train Loss: 0.6638 | Train Acc: 0.7617 | Val Loss:
+0.6852 | Val Acc: 0.7592
+Epoch 7/20 | Time: 21.19s | Train Loss: 0.6061 | Train Acc: 0.7832 | Val Loss:
+0.6815 | Val Acc: 0.7583
+Epoch 8/20 | Time: 21.29s | Train Loss: 0.5475 | Train Acc: 0.8036 | Val Loss:
+0.6712 | Val Acc: 0.7658
+Epoch 9/20 | Time: 21.37s | Train Loss: 0.5077 | Train Acc: 0.8190 | Val Loss:
+0.6985 | Val Acc: 0.7556
+Epoch 10/20 | Time: 21.79s | Train Loss: 0.4644 | Train Acc: 0.8366 | Val Loss:
+0.7070 | Val Acc: 0.7606
+Epoch 11/20 | Time: 20.60s | Train Loss: 0.4179 | Train Acc: 0.8499 | Val Loss:
+0.7114 | Val Acc: 0.7670
+Epoch 12/20 | Time: 20.24s | Train Loss: 0.3757 | Train Acc: 0.8653 | Val Loss:
+0.7335 | Val Acc: 0.7720
+Epoch 13/20 | Time: 19.78s | Train Loss: 0.3322 | Train Acc: 0.8821 | Val Loss:
+0.7733 | Val Acc: 0.7612
+Epoch 14/20 | Time: 19.08s | Train Loss: 0.2989 | Train Acc: 0.8920 | Val Loss:
+0.7898 | Val Acc: 0.7664
+Epoch 15/20 | Time: 18.74s | Train Loss: 0.2678 | Train Acc: 0.9049 | Val Loss:
+0.8684 | Val Acc: 0.7605
+Epoch 16/20 | Time: 18.86s | Train Loss: 0.2501 | Train Acc: 0.9097 | Val Loss:
+0.8266 | Val Acc: 0.7622
+Epoch 17/20 | Time: 18.69s | Train Loss: 0.2233 | Train Acc: 0.9198 | Val Loss:
+0.8676 | Val Acc: 0.7614
+Epoch 18/20 | Time: 18.48s | Train Loss: 0.1992 | Train Acc: 0.9259 | Val Loss:
+0.9663 | Val Acc: 0.7564
+Epoch 19/20 | Time: 18.62s | Train Loss: 0.1833 | Train Acc: 0.9352 | Val Loss:
+0.9852 | Val Acc: 0.7620
+Epoch 20/20 | Time: 18.71s | Train Loss: 0.1645 | Train Acc: 0.9413 | Val Loss:
+0.9778 | Val Acc: 0.7627
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Evaluating Initial Model on Test Set ---
+Initial Model - Test Loss: 0.9964, Test Accuracy: 0.7635
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Training Improved Model ---
+Epoch 1/30 | Time: 21.18s | Train Loss: 1.1789 | Train Acc: 0.5703 | Val Loss:
+0.9125 | Val Acc: 0.6769
+Epoch 2/30 | Time: 21.18s | Train Loss: 0.8654 | Train Acc: 0.6887 | Val Loss:
+0.8953 | Val Acc: 0.6844
+Epoch 3/30 | Time: 21.53s | Train Loss: 0.7696 | Train Acc: 0.7305 | Val Loss:
+0.9094 | Val Acc: 0.6827
+Epoch 4/30 | Time: 20.54s | Train Loss: 0.7376 | Train Acc: 0.7423 | Val Loss:
+0.6465 | Val Acc: 0.7750
+Epoch 5/30 | Time: 20.69s | Train Loss: 0.6791 | Train Acc: 0.7591 | Val Loss:
+0.7484 | Val Acc: 0.7327
+Epoch 6/30 | Time: 20.74s | Train Loss: 0.6595 | Train Acc: 0.7700 | Val Loss:
+0.6336 | Val Acc: 0.7828
+Epoch 7/30 | Time: 21.94s | Train Loss: 0.6243 | Train Acc: 0.7825 | Val Loss:
+0.6391 | Val Acc: 0.7823
+Epoch 8/30 | Time: 21.26s | Train Loss: 0.6035 | Train Acc: 0.7869 | Val Loss:
+0.6474 | Val Acc: 0.7752
+Epoch 9/30 | Time: 21.00s | Train Loss: 0.5848 | Train Acc: 0.7959 | Val Loss:
+0.5766 | Val Acc: 0.8058
+Epoch 10/30 | Time: 21.94s | Train Loss: 0.5636 | Train Acc: 0.8029 | Val Loss:
+0.5916 | Val Acc: 0.7964
+Epoch 11/30 | Time: 21.12s | Train Loss: 0.5493 | Train Acc: 0.8068 | Val Loss:
+0.7506 | Val Acc: 0.7431
+Epoch 12/30 | Time: 20.97s | Train Loss: 0.5423 | Train Acc: 0.8091 | Val Loss:
+0.6169 | Val Acc: 0.7891
+Epoch 13/30 | Time: 20.94s | Train Loss: 0.5387 | Train Acc: 0.8133 | Val Loss:
+0.6155 | Val Acc: 0.7898
+Epoch 14/30 | Time: 20.99s | Train Loss: 0.5116 | Train Acc: 0.8202 | Val Loss:
+0.5747 | Val Acc: 0.8066
+Epoch 15/30 | Time: 21.33s | Train Loss: 0.5056 | Train Acc: 0.8254 | Val Loss:
+0.5604 | Val Acc: 0.8117
+Epoch 16/30 | Time: 21.43s | Train Loss: 0.4924 | Train Acc: 0.8275 | Val Loss:
+0.5354 | Val Acc: 0.8234
+Epoch 17/30 | Time: 20.87s | Train Loss: 0.4878 | Train Acc: 0.8317 | Val Loss:
+0.5401 | Val Acc: 0.8119
+Epoch 18/30 | Time: 21.40s | Train Loss: 0.4747 | Train Acc: 0.8362 | Val Loss:
+0.5235 | Val Acc: 0.8216
+Epoch 19/30 | Time: 20.69s | Train Loss: 0.4709 | Train Acc: 0.8335 | Val Loss:
+0.5405 | Val Acc: 0.8109
+Epoch 20/30 | Time: 20.56s | Train Loss: 0.4543 | Train Acc: 0.8410 | Val Loss:
+0.5537 | Val Acc: 0.8116
+Epoch 21/30 | Time: 21.58s | Train Loss: 0.4452 | Train Acc: 0.8427 | Val Loss:
+0.5266 | Val Acc: 0.8277
+Epoch 22/30 | Time: 21.53s | Train Loss: 0.4371 | Train Acc: 0.8487 | Val Loss:
+0.5150 | Val Acc: 0.8264
+Epoch 23/30 | Time: 20.71s | Train Loss: 0.4230 | Train Acc: 0.8505 | Val Loss:
+0.5716 | Val Acc: 0.8084
+Epoch 24/30 | Time: 20.50s | Train Loss: 0.4202 | Train Acc: 0.8518 | Val Loss:
+0.5434 | Val Acc: 0.8253
+Epoch 25/30 | Time: 20.77s | Train Loss: 0.4112 | Train Acc: 0.8543 | Val Loss:
+0.5301 | Val Acc: 0.8320
+Epoch 26/30 | Time: 20.74s | Train Loss: 0.4018 | Train Acc: 0.8582 | Val Loss:
+0.5690 | Val Acc: 0.8153
+Epoch 27/30 | Time: 20.91s | Train Loss: 0.4068 | Train Acc: 0.8575 | Val Loss:
+0.5290 | Val Acc: 0.8269
+Early stopping triggered after 27 epochs.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Evaluating Improved Model on Test Set ---
+Improved Model - Test Loss: 0.5151, Test Accuracy: 0.8249
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Ablation Study: Model without Data Augmentation ---
+Epoch 1/30 | Time: 19.48s | Train Loss: 1.1227 | Train Acc: 0.5972 | Val Loss:
+0.9078 | Val Acc: 0.6817
+Epoch 2/30 | Time: 20.15s | Train Loss: 0.8026 | Train Acc: 0.7136 | Val Loss:
+0.7968 | Val Acc: 0.7158
+Epoch 3/30 | Time: 19.43s | Train Loss: 0.6888 | Train Acc: 0.7604 | Val Loss:
+5.4038 | Val Acc: 0.3036
+Epoch 4/30 | Time: 18.82s | Train Loss: 0.6196 | Train Acc: 0.7828 | Val Loss:
+0.7102 | Val Acc: 0.7530
+Epoch 5/30 | Time: 18.73s | Train Loss: 0.5601 | Train Acc: 0.8052 | Val Loss:
+0.6976 | Val Acc: 0.7600
+Epoch 6/30 | Time: 18.77s | Train Loss: 0.5016 | Train Acc: 0.8255 | Val Loss:
+0.6789 | Val Acc: 0.7703
+Epoch 7/30 | Time: 18.92s | Train Loss: 0.4523 | Train Acc: 0.8427 | Val Loss:
+0.7564 | Val Acc: 0.7603
+Epoch 8/30 | Time: 19.28s | Train Loss: 0.4070 | Train Acc: 0.8581 | Val Loss:
+0.7462 | Val Acc: 0.7559
+Epoch 9/30 | Time: 19.68s | Train Loss: 0.3636 | Train Acc: 0.8725 | Val Loss:
+0.7762 | Val Acc: 0.7617
+Epoch 10/30 | Time: 18.65s | Train Loss: 0.3296 | Train Acc: 0.8845 | Val Loss:
+0.7626 | Val Acc: 0.7597
+Epoch 11/30 | Time: 18.95s | Train Loss: 0.2737 | Train Acc: 0.9043 | Val Loss:
+0.7468 | Val Acc: 0.7800
+Early stopping triggered after 11 epochs.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Accuracy without Data Augmentation: 0.7642
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Ablation Study: Model without Batch Normalization ---
+Epoch 1/30 | Time: 20.99s | Train Loss: 1.4252 | Train Acc: 0.4570 | Val Loss:
+0.9829 | Val Acc: 0.6495
+Epoch 2/30 | Time: 20.34s | Train Loss: 0.9723 | Train Acc: 0.6507 | Val Loss:
+0.8133 | Val Acc: 0.7066
+Epoch 3/30 | Time: 20.46s | Train Loss: 0.8495 | Train Acc: 0.6949 | Val Loss:
+0.7656 | Val Acc: 0.7300
+Epoch 4/30 | Time: 20.53s | Train Loss: 0.7725 | Train Acc: 0.7271 | Val Loss:
+0.7104 | Val Acc: 0.7539
+Epoch 5/30 | Time: 21.36s | Train Loss: 0.7165 | Train Acc: 0.7463 | Val Loss:
+0.6480 | Val Acc: 0.7708
+Epoch 6/30 | Time: 28.24s | Train Loss: 0.6775 | Train Acc: 0.7599 | Val Loss:
+0.6335 | Val Acc: 0.7803
+Epoch 7/30 | Time: 21.05s | Train Loss: 0.6421 | Train Acc: 0.7705 | Val Loss:
+0.6243 | Val Acc: 0.7802
+Epoch 8/30 | Time: 21.03s | Train Loss: 0.6082 | Train Acc: 0.7855 | Val Loss:
+0.5901 | Val Acc: 0.7936
+Epoch 9/30 | Time: 20.70s | Train Loss: 0.5837 | Train Acc: 0.7950 | Val Loss:
+0.5855 | Val Acc: 0.7984
+Epoch 10/30 | Time: 20.72s | Train Loss: 0.5612 | Train Acc: 0.8004 | Val Loss:
+0.5660 | Val Acc: 0.8050
+Epoch 11/30 | Time: 21.14s | Train Loss: 0.5345 | Train Acc: 0.8123 | Val Loss:
+0.5609 | Val Acc: 0.8109
+Epoch 12/30 | Time: 20.90s | Train Loss: 0.5226 | Train Acc: 0.8159 | Val Loss:
+0.5583 | Val Acc: 0.8059
+Epoch 13/30 | Time: 20.73s | Train Loss: 0.5014 | Train Acc: 0.8213 | Val Loss:
+0.5660 | Val Acc: 0.8089
+Epoch 14/30 | Time: 20.62s | Train Loss: 0.4807 | Train Acc: 0.8307 | Val Loss:
+0.5600 | Val Acc: 0.8137
+Epoch 15/30 | Time: 20.75s | Train Loss: 0.4693 | Train Acc: 0.8340 | Val Loss:
+0.5470 | Val Acc: 0.8158
+Epoch 16/30 | Time: 20.78s | Train Loss: 0.4514 | Train Acc: 0.8408 | Val Loss:
+0.5562 | Val Acc: 0.8172
+Epoch 17/30 | Time: 20.56s | Train Loss: 0.4426 | Train Acc: 0.8404 | Val Loss:
+0.5627 | Val Acc: 0.8073
+Epoch 18/30 | Time: 20.40s | Train Loss: 0.4180 | Train Acc: 0.8531 | Val Loss:
+0.5695 | Val Acc: 0.8147
+Epoch 19/30 | Time: 20.41s | Train Loss: 0.4150 | Train Acc: 0.8536 | Val Loss:
+0.5508 | Val Acc: 0.8161
+Epoch 20/30 | Time: 20.35s | Train Loss: 0.4101 | Train Acc: 0.8544 | Val Loss:
+0.5609 | Val Acc: 0.8147
+Early stopping triggered after 20 epochs.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Accuracy without Batch Normalization: 0.8059
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_15.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Ablation Study: Model without Early Stopping ---
+Epoch 1/30 | Time: 21.02s | Train Loss: 1.1304 | Train Acc: 0.5864 | Val Loss:
+1.0280 | Val Acc: 0.6131
+Epoch 2/30 | Time: 21.24s | Train Loss: 0.8317 | Train Acc: 0.7049 | Val Loss:
+0.8022 | Val Acc: 0.7122
+Epoch 3/30 | Time: 20.55s | Train Loss: 0.7562 | Train Acc: 0.7323 | Val Loss:
+0.7152 | Val Acc: 0.7539
+Epoch 4/30 | Time: 21.22s | Train Loss: 0.7007 | Train Acc: 0.7531 | Val Loss:
+0.6919 | Val Acc: 0.7530
+Epoch 5/30 | Time: 21.16s | Train Loss: 0.6746 | Train Acc: 0.7657 | Val Loss:
+0.7806 | Val Acc: 0.7281
+Epoch 6/30 | Time: 20.84s | Train Loss: 0.6396 | Train Acc: 0.7751 | Val Loss:
+0.6173 | Val Acc: 0.7836
+Epoch 7/30 | Time: 20.79s | Train Loss: 0.6234 | Train Acc: 0.7814 | Val Loss:
+0.6309 | Val Acc: 0.7823
+Epoch 8/30 | Time: 20.98s | Train Loss: 0.6018 | Train Acc: 0.7867 | Val Loss:
+0.6264 | Val Acc: 0.7809
+Epoch 9/30 | Time: 20.79s | Train Loss: 0.5766 | Train Acc: 0.7980 | Val Loss:
+0.6353 | Val Acc: 0.7783
+Epoch 10/30 | Time: 20.81s | Train Loss: 0.5618 | Train Acc: 0.8029 | Val Loss:
+0.5611 | Val Acc: 0.8073
+Epoch 11/30 | Time: 20.99s | Train Loss: 0.5467 | Train Acc: 0.8107 | Val Loss:
+0.6703 | Val Acc: 0.7714
+Epoch 12/30 | Time: 20.74s | Train Loss: 0.5353 | Train Acc: 0.8114 | Val Loss:
+0.5780 | Val Acc: 0.7977
+Epoch 13/30 | Time: 20.72s | Train Loss: 0.5231 | Train Acc: 0.8181 | Val Loss:
+0.6119 | Val Acc: 0.7900
+Epoch 14/30 | Time: 20.36s | Train Loss: 0.5045 | Train Acc: 0.8238 | Val Loss:
+0.5737 | Val Acc: 0.8063
+Epoch 15/30 | Time: 21.41s | Train Loss: 0.4944 | Train Acc: 0.8276 | Val Loss:
+0.5636 | Val Acc: 0.8064
+Epoch 16/30 | Time: 21.14s | Train Loss: 0.4877 | Train Acc: 0.8287 | Val Loss:
+0.5702 | Val Acc: 0.8039
+Epoch 17/30 | Time: 20.74s | Train Loss: 0.4711 | Train Acc: 0.8367 | Val Loss:
+0.5591 | Val Acc: 0.8097
+Epoch 18/30 | Time: 22.25s | Train Loss: 0.4598 | Train Acc: 0.8360 | Val Loss:
+0.5242 | Val Acc: 0.8231
+Epoch 19/30 | Time: 21.45s | Train Loss: 0.4577 | Train Acc: 0.8398 | Val Loss:
+0.5504 | Val Acc: 0.8116
+Epoch 20/30 | Time: 21.20s | Train Loss: 0.4532 | Train Acc: 0.8402 | Val Loss:
+0.5332 | Val Acc: 0.8216
+Epoch 21/30 | Time: 21.48s | Train Loss: 0.4378 | Train Acc: 0.8471 | Val Loss:
+0.5414 | Val Acc: 0.8130
+Epoch 22/30 | Time: 21.18s | Train Loss: 0.4297 | Train Acc: 0.8506 | Val Loss:
+0.5364 | Val Acc: 0.8125
+Epoch 23/30 | Time: 22.12s | Train Loss: 0.4145 | Train Acc: 0.8562 | Val Loss:
+0.5159 | Val Acc: 0.8234
+Epoch 24/30 | Time: 23.37s | Train Loss: 0.4055 | Train Acc: 0.8577 | Val Loss:
+0.5377 | Val Acc: 0.8195
+Epoch 25/30 | Time: 21.37s | Train Loss: 0.3984 | Train Acc: 0.8600 | Val Loss:
+0.5493 | Val Acc: 0.8191
+Epoch 26/30 | Time: 21.25s | Train Loss: 0.3924 | Train Acc: 0.8609 | Val Loss:
+0.5182 | Val Acc: 0.8297
+Epoch 27/30 | Time: 21.10s | Train Loss: 0.3864 | Train Acc: 0.8639 | Val Loss:
+0.5197 | Val Acc: 0.8264
+Epoch 28/30 | Time: 21.35s | Train Loss: 0.3744 | Train Acc: 0.8686 | Val Loss:
+0.5389 | Val Acc: 0.8259
+Epoch 29/30 | Time: 21.88s | Train Loss: 0.3702 | Train Acc: 0.8681 | Val Loss:
+0.5585 | Val Acc: 0.8192
+Epoch 30/30 | Time: 21.39s | Train Loss: 0.3621 | Train Acc: 0.8707 | Val Loss:
+0.5474 | Val Acc: 0.8217
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_17.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Accuracy without Early Stopping (fixed epochs): 0.8201
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_0_19.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Ablation Study Summary ---
+Fully Improved Model Test Accuracy: 0.8249
+Without Data Augmentation Test Accuracy: 0.7642
+Without Batch Norm Test Accuracy: 0.8059
+Without Early Stopping Test Accuracy: 0.8201
+ERROR: OOD dataset directory not found at SSY098/id\_ood\_samples. Skipping OOD
+detection.
+Skipping OOD score calculation and plotting due to missing data loaders.
+Script execution finished.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
